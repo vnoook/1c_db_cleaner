@@ -10,7 +10,7 @@ import pathlib
 import sys
 
 # папка для поиска
-dir_for_clean = r'd:\temp\exp1'
+dir_for_clean = r'd:\temp\exp1'  # os.path.normpath(dir_for_clean))
 
 # количество баз в папке
 db_quantity_in_dir = 5
@@ -20,7 +20,7 @@ email_alert = 'noook@yandex.ru'
 
 
 if __name__ == '__main__':
-    print(dir_for_clean)
+    print()
 
 
 
@@ -28,16 +28,12 @@ if __name__ == '__main__':
 
 
 
-
-# os.path.dirname(path1)
-# os.path.realpath(path1)
-# os.getcwd().__iter__()
-# os.fspath(path1)
-# os.path.abspath(name_file)
-# os.path.basename(name_file)
-# os.path.normpath(name_file)
-
-
-
-
+# 1) что есть в главной папке?
+# 2) если в папке только файлы, то какие
+# 3) если размеры архивов примерно одинаковы И расширения одинаковы И начало названий файлов одинаковые,
+#     то оставить последние 5 по дате
+# 4) проверить место на диске из папки dir_for_clean
+# 5) отправить письмо на ящик с инфой
+#     а) сколько места на диске
+#     б) логи после удаления
 
