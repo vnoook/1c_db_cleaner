@@ -15,8 +15,12 @@ dir_for_clean = r'd:\temp\exp1'  # os.path.normpath(dir_for_clean))
 # количество баз в папке
 db_quantity_in_dir = 5
 
+# расширения файлов для поиска
+extention_list = ('rar', 'zip', 'dt', '7z')
+
 # почта на которую отправится алерт
 email_alert = 'noook@yandex.ru'
+
 
 
 if __name__ == '__main__':
