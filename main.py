@@ -41,20 +41,13 @@ def search_files(dir_value):
     print('1')
     print(*listing_files)
     print('2')
-    print(dir(listing_files))
-    print('3')
-    print(type(listing_files))
-    print('4')
-    print(*paths)
-    print('5')
     print(*dirs)
-    print('6')
+    print('3')
     print(*files)
     print()
 
 
 if __name__ == '__main__':
-    print()
     search_files(dir_with_files)
 
 
