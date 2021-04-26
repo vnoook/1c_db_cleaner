@@ -21,11 +21,10 @@ extention_list = ('rar', 'zip', 'dt', '7z')
 # почта на которую отправится алерт
 email_alert = 'noook@yandex.ru'
 
-
+average_size_file_in_dir = 0
 
 if __name__ == '__main__':
     print()
-
 
 
 
