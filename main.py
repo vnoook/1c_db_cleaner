@@ -33,8 +33,25 @@ email_alert = 'noook@yandex.ru'
 
 average_size_file_in_dir = 0
 
+
 def search_files(dir_value):
-    pass
+    listing_files = os.walk(dir_value)
+    paths, dirs, files = next(listing_files)
+
+    print()
+    print(listing_files)
+    print()
+    print(dir(listing_files))
+    print()
+    print(type(listing_files))
+    print()
+    print(paths)
+    print()
+    print(dirs)
+    print()
+    print(files)
+    print()
+
 
 if __name__ == '__main__':
     print()
