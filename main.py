@@ -1,9 +1,8 @@
 # TODO
-'''
-сделать прогу которая ходит по папкам и смотрит чтобы
-1) в папке не было больше 5 версий заархивированной базы
-2) проверяет наличие свободного места и пишет письмо, если место кончается
-
+# сделать прогу которая ходит по папкам и смотрит чтобы
+# 1) в папке не было больше 5 версий заархивированной базы
+# 2) проверяет наличие свободного места и пишет письмо, если место кончается
+#
 # План:
 # 1) сделать функцию поиска папки с файлоами
 # 2) если в папке только файлы, то какие
@@ -13,11 +12,10 @@
 # 5) отправить письмо на ящик с инфой
 #     а) сколько места на диске
 #     б) логи после удаления
-'''
 
 import os
-import pathlib
-import sys
+# import pathlib
+# import sys
 
 # папка для поиска
 dir_with_files = r'd:\temp\exp1'  # os.path.normpath(dir_with_files))
@@ -26,36 +24,42 @@ dir_with_files = r'd:\temp\exp1'  # os.path.normpath(dir_with_files))
 db_quantity_in_dir = 5
 
 # расширения файлов для поиска
-extention_list = ('rar', 'zip', 'dt', '7z')
+extension_list = ('rar', 'zip', 'dt', '7z')
 
 # почта на которую отправится алерт
 email_alert = 'noook@yandex.ru'
 
 average_size_file_in_dir = 0
 
-def get_arc_files():
-    pass
-
-def del_arc_files():
-    pass
 
 def get_list_dirs():
     pass
 
+
+def get_arc_files():
+    pass
+
+
+def del_arc_files():
+    pass
+
+
 def search_files(dir_value):
     listing_files = os.walk(dir_value)
-    paths, dirs, files = next(listing_files)
-
-    print('1')
-    print(*listing_files)
-    print('2')
-    print(*dirs)
-    print('3')
-    print(*files)
     print()
+    print(*listing_files, sep='\n')
 
+    for paths, dirs, files in listing_files:
+        print('paths')
+        print(*paths)
+        print('dirs')
+        print(*dirs)
+        print('files')
+        print(*files)
+        print()
 
+# -------------------------------------------------------- #
 if __name__ == '__main__':
     search_files(dir_with_files)
 
-
+exit()
