@@ -29,24 +29,17 @@ extension_list = ('rar', 'zip', 'dt', '7z')
 # почта на которую отправится алерт
 email_alert = 'noook@yandex.ru'
 
+# переменная для
 average_size_file_in_dir = 0
 
 
-def get_list_dirs():
-    pass
-
-
-def get_arc_files():
-    pass
-
-
+# функция для удаления "лишних" файлов в папке
 def del_arc_files(folder_value, files_value):
+    # смена текущей папки для поиска файла
+    os.chdir(folder_value)
     print()
-    print('folder_value = ',folder_value)
-    print('files_value = ', files_value)
-    print(f'была папка {os.getcwd()} {os.chdir(folder_value)} теперь стала папка {os.getcwd()}')
 
-    if len(files_value) > 5-1:
+    if len(files_value) > db_quantity_in_dir-1:
         for file in files_value:
             print(' '*6, file, end=' ')
 
@@ -61,11 +54,13 @@ def del_arc_files(folder_value, files_value):
         print(f'   _в папке {files_value} файлов {len(files_value)} штук')
 
 
+# функция для поиска файлов в исходной папке
 def search_files(dir_value):
     for folders, dirs, files in os.walk(dir_value):
         del_arc_files(folders, files)
 
 # -------------------------------------------------------- #
+# новая модная фигня как запускать прогу
 if __name__ == '__main__':
     search_files(dir_with_files)
 
