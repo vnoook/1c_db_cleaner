@@ -15,7 +15,7 @@
 
 import os
 # import pathlib
-# import sys
+import sys
 
 # папка для поиска
 dir_with_files = r'd:\temp\exp1'  # os.path.normpath(dir_with_files))
@@ -40,7 +40,7 @@ def get_arc_files():
     pass
 
 
-def del_arc_files():
+def del_arc_files(dir_value):
     pass
 
 
@@ -54,3 +54,6 @@ def search_files(dir_value):
 # -------------------------------------------------------- #
 if __name__ == '__main__':
     search_files(dir_with_files)
+    print()
+
+
