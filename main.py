@@ -33,6 +33,14 @@ email_alert = 'noook@yandex.ru'
 
 average_size_file_in_dir = 0
 
+def get_arc_files():
+    pass
+
+def del_arc_files():
+    pass
+
+def get_list_dirs():
+    pass
 
 def search_files(dir_value):
     listing_files = os.walk(dir_value)
