@@ -40,16 +40,30 @@ def get_arc_files():
     pass
 
 
-def del_arc_files(dir_value):
-    pass
+def del_arc_files(folder_value, files_value):
+    print(folder_value)
+    # print(files_value)
+
+    if len(files_value) > 5-1:
+        for file in files_value:
+            print(file)
+
+            # os.chdir(folder_value)
+            # os.path.getsize(path) - размер файла в байтах
+            # os.stat(file).st_size - размер файла в байтах
+            print(os.stat(file).st_size())
+            print(os.path.getsize(file))
+
+            if os.stat(file).st_size > 0:
+                print('удаляю файл', file)
+    else:
+        print(f'файлов в папке {files_value} меньше пяти(5)')
 
 
 def search_files(dir_value):
     for folders, dirs, files in os.walk(dir_value):
-        print()
         print(folders)
-        print(dirs)
-        print(files)
+        del_arc_files(folders, files)
 
 # -------------------------------------------------------- #
 if __name__ == '__main__':
