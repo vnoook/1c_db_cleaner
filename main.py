@@ -42,7 +42,7 @@ def get_arc_files():
 
 def del_arc_files(folder_value, files_value):
     print(folder_value)
-    # print(files_value)
+    print(files_value)
 
     if len(files_value) > 5-1:
         for file in files_value:
