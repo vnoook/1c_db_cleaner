@@ -33,7 +33,7 @@ email_alert = 'noook@yandex.ru'
 average_size_file_in_dir = 0
 
 
-# функция для удаления "лишних" файлов в папке
+# функция для определения и удаления "лишних" файлов в папке
 def del_arc_files(folder_value, files_value):
     # смена текущей папки для поиска файла
     os.chdir(folder_value)
@@ -42,6 +42,7 @@ def del_arc_files(folder_value, files_value):
     if len(files_value) > db_quantity_in_dir-1:
         for file in files_value:
             print(' '*6, file, end=' ')
+            print(os.path.join(folder_value, file))
 
             # os.path.getsize(path) - размер файла в байтах
             # os.stat(file).st_size - размер файла в байтах
@@ -49,7 +50,7 @@ def del_arc_files(folder_value, files_value):
             # print(os.path.getsize(file))
 
             if os.stat(file).st_size > 0:
-                print(' '*3, '--- удаляю файл', file)
+                print(' '*3, '--- удаляю файл', file)  # TODO сделать удаление файла
     else:
         print(f'   _в папке {files_value} файлов {len(files_value)} штук')
 
