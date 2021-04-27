@@ -41,33 +41,32 @@ def get_arc_files():
 
 
 def del_arc_files(folder_value, files_value):
-    print(folder_value)
-    print(files_value)
+    print()
+    print('folder_value = ',folder_value)
+    print('files_value = ', files_value)
+    print(f'была папка {os.getcwd()} {os.chdir(folder_value)} теперь стала папка {os.getcwd()}')
 
     if len(files_value) > 5-1:
         for file in files_value:
-            print(file)
+            print(' '*6, file, end=' ')
 
-            # os.chdir(folder_value)
             # os.path.getsize(path) - размер файла в байтах
             # os.stat(file).st_size - размер файла в байтах
-            print(os.stat(file).st_size())
-            print(os.path.getsize(file))
+            # print(os.stat(file).st_size())
+            # print(os.path.getsize(file))
 
             if os.stat(file).st_size > 0:
-                print('удаляю файл', file)
+                print(' '*3, '--- удаляю файл', file)
     else:
-        print(f'файлов в папке {files_value} меньше пяти(5)')
+        print(f'   _в папке {files_value} файлов {len(files_value)} штук')
 
 
 def search_files(dir_value):
     for folders, dirs, files in os.walk(dir_value):
-        print(folders)
         del_arc_files(folders, files)
 
 # -------------------------------------------------------- #
 if __name__ == '__main__':
     search_files(dir_with_files)
-    print()
 
 
