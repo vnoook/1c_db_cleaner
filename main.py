@@ -13,9 +13,12 @@
 #     а) сколько места на диске
 #     б) логи после удаления
 
+
 import os
-# import pathlib
 import sys
+import math
+import pathlib
+
 
 # папка для поиска
 dir_with_files = r'd:\temp\exp1'  # os.path.normpath(dir_with_files))
@@ -33,6 +36,14 @@ email_alert = 'noook@yandex.ru'
 average_size_file_in_dir = 0
 
 
+# функция не моя, взял с инета из SOF
+def human_read_format(size):
+    pwr = math.floor(math.log(size, 1024))
+    suff = ["Б", "КБ", "МБ", "ГБ", "ТБ", "ПБ", "ЭБ", "ЗБ", "ЙБ"]
+    if size > 1024 ** (len(suff) - 1):
+        return "не знаю как назвать такое число :)"
+    return f"{size / 1024 ** pwr:.0f}{suff[pwr]}"
+
 # функция для определения и удаления "лишних" файлов в папке
 def del_arc_files(folder_value, files_value):
     # смена текущей папки для поиска файла
@@ -41,18 +52,20 @@ def del_arc_files(folder_value, files_value):
 
     if len(files_value) > db_quantity_in_dir-1:
         for file in files_value:
-            print(' '*6, file, end=' ')
-            print(os.path.join(folder_value, file))
+            print(' '*3, file, end=' ')
+            print(os.path.join(folder_value, file), end=' ')
 
-            # os.path.getsize(path) - размер файла в байтах
-            # os.stat(file).st_size - размер файла в байтах
-            # print(os.stat(file).st_size())
-            # print(os.path.getsize(file))
+            print('размер файла',
+                  human_read_format(os.stat(os.path.join(folder_value, file)).st_size),
+                  'и в байтах =',
+                  os.stat(os.path.join(folder_value, file)).st_size,
+                  end=' '
+                  )
 
             if os.stat(file).st_size > 0:
-                print(' '*3, '--- удаляю файл', file)  # TODO сделать удаление файла
+                print(' '*6, '--- удаляю файл', file)  # TODO сделать удаление файла
     else:
-        print(f'   _в папке {files_value} файлов {len(files_value)} штук')
+        print(f'_в папке {folder_value} файлов {len(files_value)} штук')
 
 
 # функция для поиска файлов в исходной папке
