@@ -45,21 +45,12 @@ def del_arc_files():
 
 
 def search_files(dir_value):
-    listing_files = os.walk(dir_value)
-    print()
-    print(*listing_files, sep='\n')
-
-    for paths, dirs, files in listing_files:
-        print('paths')
-        print(*paths)
-        print('dirs')
-        print(*dirs)
-        print('files')
-        print(*files)
+    for folders, dirs, files in os.walk(dir_value):
         print()
+        print(folders)
+        print(dirs)
+        print(files)
 
 # -------------------------------------------------------- #
 if __name__ == '__main__':
     search_files(dir_with_files)
-
-exit()
