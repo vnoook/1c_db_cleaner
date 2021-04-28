@@ -71,22 +71,28 @@ def del_arc_files(folder_value):
             print(folders)
 
             for file in files:
-                print(' ' * 3, file, '.' * (max_space - len(file)),
+                print(' '*3, file, '.'*(max_space - len(file)),
                       ' ... размер = ', human_read_format(os.stat(os.path.join(folders, file)).st_size),
                       ' ... в байтах = ', os.stat(os.path.join(folders, file)).st_size,
                       ' ... дата = ', time.ctime(os.stat(os.path.join(folders, file)).st_ctime),
                       end=' ', sep=''
                       )
-
-                # TODO сделать удаление файла через try - except
                 if os.stat(file).st_size == 0:
                     print(' '*4, '!!! файл нулевой длины !!! точно удаляю')
+
                     try:
                         os.remove(file)
                         print(' '*4 + '_'*50 + f' Файл {file} удалён')
-                    except OSError:
-                        # print(' '*4 + '_'*50 + f'Ошибка: {OSError.filename} {OSError.strerror}')
-                        print(' '*8, f'Ошибка: не могу удалить файл')
+                    except PermissionError as PE:
+                        print(' '*4 + '_'*50 + f'Ошибка: {PE.filename} {PE.strerror}')
+                        print(' '*4 + '_'*50 + f'Ошибка: нет доступа для удаления файла')
+                    except FileNotFoundError as FNFE:
+                        print(' '*4 + '_'*50 + f'Ошибка: {FNFE.filename} {FNFE.strerror}')
+                        print(' '*4 + '_'*50 + f'Ошибка: файл не найден')
+                    else:
+                        pass
+                    finally:
+                        pass
 
                 elif os.stat(file).st_size > 10485760:
                     print(' '*4, '--- файл больше 10 МБ')
