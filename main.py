@@ -2,7 +2,7 @@
 # сделать прогу которая ходит по папкам и смотрит чтобы
 # 1) в папке не было больше 5 версий заархивированной базы
 # 2) проверяет наличие свободного места и пишет письмо, если место кончается
-#
+# 3) надо чтобы прога закрывала процессы в памяти связанные с архиватором
 # План:
 # 1) сделать функцию поиска папки с файлоами
 # 2) если в папке только файлы, то какие
@@ -37,12 +37,16 @@ average_size_file_in_dir = 0
 
 
 # функция не моя, взял с инета из SOF
-def human_read_format(size):
-    pwr = math.floor(math.log(size, 1024))
-    suff = ["Б", "КБ", "МБ", "ГБ", "ТБ", "ПБ", "ЭБ", "ЗБ", "ЙБ"]
-    if size > 1024 ** (len(suff) - 1):
-        return "не знаю как назвать такое число :)"
-    return f"{size / 1024 ** pwr:.0f}{suff[pwr]}"
+def human_read_format(sizeF):
+    pwr = math.floor(math.log(sizeF, 1024))
+    suff = ['Б', 'КБ', 'МБ', 'ГБ', 'ТБ', 'ПБ', 'ЭБ', 'ЗБ', 'ЙБ']
+    if sizeF > 1024 ** (len(suff) - 1):
+        return 'не знаю как назвать такое число :)'
+    return f'{sizeF / 1024 ** pwr:.0f}{suff[pwr]}'
+
+
+def kill_proc_winrar():
+    pass
 
 # функция для определения и удаления "лишних" файлов в папке
 def del_arc_files(folder_value, files_value):
@@ -52,7 +56,7 @@ def del_arc_files(folder_value, files_value):
 
     if len(files_value) > db_quantity_in_dir-1:
         for file in files_value:
-            print(' '*3, file, end=' ')
+            print(' '*1, file, end=' ')
             print(os.path.join(folder_value, file), end=' ')
 
             print('размер файла',
@@ -74,8 +78,9 @@ def search_files(dir_value):
         del_arc_files(folders, files)
 
 # -------------------------------------------------------- #
-# новая модная фигня как запускать прогу
+# новая модная фича как запускать прогу
 if __name__ == '__main__':
+    kill_proc_winrar()
     search_files(dir_with_files)
 
 
