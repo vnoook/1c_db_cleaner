@@ -18,6 +18,7 @@ import sys
 import math
 import time
 import pathlib
+import textwrap
 
 # папка для поиска
 root_dir_with_files = r'd:\temp\exp1'
@@ -58,18 +59,15 @@ def del_arc_files(folder_value, files_value):
         print(folder_value)
 
         for file in files_value:
-            print(' '*2, file, end=' ')
-            print('... размер =',
-                  human_read_format(os.stat(os.path.join(folder_value, file)).st_size),
-                  '... в байтах =',
-                  os.stat(os.path.join(folder_value, file)).st_size,
-                  '... дата =',
-                  time.ctime(os.stat(os.path.join(folder_value, file)).st_ctime),
+            print(' '*3, file,
+                  '... размер =', human_read_format(os.stat(os.path.join(folder_value, file)).st_size),
+                  '... в байтах =', os.stat(os.path.join(folder_value, file)).st_size,
+                  '... дата =', time.ctime(os.stat(os.path.join(folder_value, file)).st_ctime),
                   end=' '
                   )
 
-            if os.stat(file).st_size > 0:
-                print(' '*2, '--- удаляю файл', file)  # TODO сделать удаление файла через try - except
+            if os.stat(file).st_size >= 0:
+                print(' '*4, '--- удаляю файл', file)  # TODO сделать удаление файла через try - except
     # else:
     #     print(f'_в папке {folder_value} файлов {len(files_value)} штук')
 
