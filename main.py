@@ -71,30 +71,31 @@ def del_arc_files(folder_value):
             print(folders)
 
             for file in files:
-                print(' '*3, file, '.'*(max_space - len(file)),
-                      ' ... размер = ', human_read_format(os.stat(os.path.join(folders, file)).st_size),
-                      ' ... в байтах = ', os.stat(os.path.join(folders, file)).st_size,
-                      ' ... дата = ', time.ctime(os.stat(os.path.join(folders, file)).st_ctime),
-                      end=' ', sep=''
-                      )
+                if os.path.splitext(file)[1] in extension_list:
+                    print(' '*3, file, '.'*(max_space - len(file)),
+                          ' ... размер = ', human_read_format(os.stat(os.path.join(folders, file)).st_size),
+                          ' ... в байтах = ', os.stat(os.path.join(folders, file)).st_size,
+                          ' ... дата = ', time.ctime(os.stat(os.path.join(folders, file)).st_ctime),
+                          end=' ', sep=''
+                          )
 
-                if os.stat(file).st_size == 0:
-                    print(' '*4, '!!! файл нулевой длины !!! точно удаляю')
-                    try:
-                        os.remove(file)
-                        print(' '*4 + '_'*50 + f'Файл {file} удалён')
-                    except PermissionError as PE:
-                        print(' '*4 + '_'*50 + f'Ошибка: нет доступа для удаления файла {PE.filename} - {PE.strerror}')
-                    except FileNotFoundError as FNFE:
-                        print(' '*4 + '_'*50 + f'Ошибка: файл не найден {FNFE.filename} - {FNFE.strerror}')
+                    if os.stat(file).st_size == 0:
+                        print(' '*4, '!!! файл нулевой длины !!! точно удаляю')
+                        try:
+                            os.remove(file)
+                            print(' '*4 + '_'*50 + f'Файл {file} удалён')
+                        except PermissionError as errorPE:
+                            print(' '*4 + '_'*50 + f'Ошибка: нет доступа для удаления файла {errorPE.filename} - {errorPE.strerror}')
+                        except FileNotFoundError as errorFNFE:
+                            print(' '*4 + '_'*50 + f'Ошибка: файл не найден {errorFNFE.filename} - {errorFNFE.strerror}')
+                        else:
+                            pass
+                        finally:
+                            pass
+                    elif os.stat(file).st_size > 10485760:
+                        print(' '*4, '--- файл больше 10 МБ')
                     else:
-                        pass
-                    finally:
-                        pass
-                elif os.stat(file).st_size > 10485760:
-                    print(' '*4, '--- файл больше 10 МБ')
-                else:
-                    print(' '*4, '--- надо подумать')
+                        print(' '*4, '--- надо подумать')
 
 
 # -------------------------------------------------------- #
@@ -102,6 +103,3 @@ def del_arc_files(folder_value):
 if __name__ == '__main__':
     kill_proc_winrar()  # удаляю зависшие процессы winrar
     del_arc_files(root_dir_with_files)  # ищу и удаляю "лишние файлы"
-
-
-
