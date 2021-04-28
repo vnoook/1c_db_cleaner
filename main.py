@@ -67,9 +67,8 @@ def del_arc_files(folder_value, files_value):
         print()
         print(folder_value)
 
-
         for file in files_value:
-            print(' '*3, file, len(file),
+            print(' '*3, file, '.'*(max_space-len(file)),
                   '... размер =', human_read_format(os.stat(os.path.join(folder_value, file)).st_size),
                   '... в байтах =', os.stat(os.path.join(folder_value, file)).st_size,
                   '... дата =', time.ctime(os.stat(os.path.join(folder_value, file)).st_ctime),
