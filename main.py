@@ -50,9 +50,14 @@ def kill_proc_winrar():
     pass
 
 def count_max_name_files(files_value):
-
-    print(len(file) for file in files_value)
-    max_len_name_file = max()
+    max_name_file = 0
+    for file in files_value:
+        print(max_name_file)
+        print(len(file))
+        if max_name_file < len(file):
+            max_name_file = len(file)
+            print(max_name_file)
+    return max_name_file
 
 # функция для определения и удаления "лишних" файлов в папке
 def del_arc_files(folder_value, files_value):
@@ -62,6 +67,7 @@ def del_arc_files(folder_value, files_value):
     if len(files_value) > quantity_files_in_dir:
         print()
         print(folder_value)
+        count_max_name_files(files_value)
 
         for file in files_value:
             print(' '*3, file, len(file),
