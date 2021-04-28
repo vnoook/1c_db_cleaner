@@ -49,6 +49,11 @@ def human_read_format(sizeF):
 def kill_proc_winrar():
     pass
 
+def count_max_name_files(files_value):
+
+    print(len(file) for file in files_value)
+    max_len_name_file = max()
+
 # функция для определения и удаления "лишних" файлов в папке
 def del_arc_files(folder_value, files_value):
     # смена текущей папки для поиска файла
@@ -59,7 +64,7 @@ def del_arc_files(folder_value, files_value):
         print(folder_value)
 
         for file in files_value:
-            print(' '*3, file,
+            print(' '*3, file, len(file),
                   '... размер =', human_read_format(os.stat(os.path.join(folder_value, file)).st_size),
                   '... в байтах =', os.stat(os.path.join(folder_value, file)).st_size,
                   '... дата =', time.ctime(os.stat(os.path.join(folder_value, file)).st_ctime),
