@@ -82,13 +82,11 @@ def del_arc_files(folder_value):
 
                     try:
                         os.remove(file)
-                        print(' '*4 + '_'*50 + f' Файл {file} удалён')
+                        print(' '*4 + '_'*50 + f'Файл {file} удалён')
                     except PermissionError as PE:
-                        print(' '*4 + '_'*50 + f'Ошибка: {PE.filename} {PE.strerror}')
-                        print(' '*4 + '_'*50 + f'Ошибка: нет доступа для удаления файла')
+                        print(' '*4 + '_'*50 + f'Ошибка: нет доступа для удаления файла {PE.filename} - {PE.strerror}')
                     except FileNotFoundError as FNFE:
-                        print(' '*4 + '_'*50 + f'Ошибка: {FNFE.filename} {FNFE.strerror}')
-                        print(' '*4 + '_'*50 + f'Ошибка: файл не найден')
+                        print(' '*4 + '_'*50 + f'Ошибка: файл не найден {FNFE.filename} - {FNFE.strerror}')
                     else:
                         pass
                     finally:
