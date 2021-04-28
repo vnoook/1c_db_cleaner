@@ -80,11 +80,18 @@ def del_arc_files(folder_value):
 
                 # TODO сделать удаление файла через try - except
                 if os.stat(file).st_size == 0:
-                    print(' ' * 4, '!!! файл нулевой длины !!! точно удаляю')
+                    print(' '*4, '!!! файл нулевой длины !!! точно удаляю')
+                    try:
+                        os.remove(file)
+                        print(' '*4 + '_'*50 + f' Файл {file} удалён')
+                    except OSError:
+                        # print(' '*4 + '_'*50 + f'Ошибка: {OSError.filename} {OSError.strerror}')
+                        print(' '*8, f'Ошибка: не могу удалить файл')
+
                 elif os.stat(file).st_size > 10485760:
-                    print(' ' * 4, '--- файл больше 10 МБ')
+                    print(' '*4, '--- файл больше 10 МБ')
                 else:
-                    print(' ' * 4, '--- надо подумать')
+                    print(' '*4, '--- надо подумать')
 
 
 # -------------------------------------------------------- #
