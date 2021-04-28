@@ -75,10 +75,11 @@ def del_arc_files(folder_value, files_value):
                   end=' '
                   )
 
-            if os.stat(file).st_size >= 0:
-                print(' '*4, '--- удаляю файл', file)  # TODO сделать удаление файла через try - except
-    # else:
-    #     print(f'_в папке {folder_value} файлов {len(files_value)} штук')
+            # TODO сделать удаление файла через try - except
+            if os.stat(file).st_size == 0:
+                print(' ' * 4, '!!! файл нулевой длины? точно удаляю')
+            elif os.stat(file).st_size > 0:
+                print(' '*4, '--- удаляю файл')
 
 # функция для поиска файлов в исходной папке
 def search_files(dir_value):
