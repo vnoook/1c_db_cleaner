@@ -59,39 +59,36 @@ def count_max_name_files(files_value):
 
 
 # функция для определения и удаления "лишних" файлов в папке
-def del_arc_files(folder_value, files_value):
-    # смена текущей папки для поиска файла
-    os.chdir(folder_value)
+def del_arc_files(folder_value):
+    for folders, dirs, files in os.walk(folder_value):
+        # смена текущей папки для поиска файла
+        os.chdir(folders)
 
-    max_space = count_max_name_files(files_value)
+        max_space = count_max_name_files(files)
 
-    if len(files_value) > quantity_files_in_dir:
-        print()
-        print(folder_value)
+        if len(files) > quantity_files_in_dir:
+            print()
+            print(folders)
 
-        for file in files_value:
-            print(' '*3, file, '.'*(max_space-len(file)),
-                  ' размер = ', human_read_format(os.stat(os.path.join(folder_value, file)).st_size),
-                  ' ... в байтах = ', os.stat(os.path.join(folder_value, file)).st_size,
-                  ' ... дата = ', time.ctime(os.stat(os.path.join(folder_value, file)).st_ctime),
-                  end=' ', sep=''
-                  )
+            for file in files:
+                print(' ' * 3, file, '.' * (max_space - len(file)),
+                      ' ... размер = ', human_read_format(os.stat(os.path.join(folders, file)).st_size),
+                      ' ... в байтах = ', os.stat(os.path.join(folders, file)).st_size,
+                      ' ... дата = ', time.ctime(os.stat(os.path.join(folders, file)).st_ctime),
+                      end=' ', sep=''
+                      )
 
-            # TODO сделать удаление файла через try - except
-            if os.stat(file).st_size == 0:
-                print(' '*4, '!!! файл нулевой длины !!! точно удаляю')
-            else:
-                print(' '*4, '--- надо подумать')
-
-
-# функция для поиска файлов в исходной папке
-def search_files(dir_value):
-    for folders, dirs, files in os.walk(dir_value):
-        del_arc_files(folders, files)
+                # TODO сделать удаление файла через try - except
+                if os.stat(file).st_size == 0:
+                    print(' ' * 4, '!!! файл нулевой длины !!! точно удаляю')
+                elif os.stat(file).st_size > 10485760:
+                    print(' ' * 4, '--- файл больше 10 МБ')
+                else:
+                    print(' ' * 4, '--- надо подумать')
 
 
 # -------------------------------------------------------- #
 # новая модная фича как запускать прогу
 if __name__ == '__main__':
     kill_proc_winrar()  # удаляю зависшие процессы winrar
-    search_files(root_dir_with_files)  # ищу и удаляю "лишние файлы"
+    del_arc_files(root_dir_with_files)  # ищу и удаляю "лишние файлы"
