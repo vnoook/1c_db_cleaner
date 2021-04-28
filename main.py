@@ -8,11 +8,10 @@
 # 2) если в папке только файлы, то какие
 # 3) если размеры архивов примерно одинаковы И расширения одинаковы И начало названий файлов одинаковые,
 #     то оставить последние 5 по дате
-# 4) проверить место на диске из папки dir_with_files
+# 4) проверить место на диске из папки root_dir_with_files
 # 5) отправить письмо на ящик с инфой
 #     а) сколько места на диске
 #     б) логи после удаления
-
 
 import os
 import sys
@@ -21,10 +20,10 @@ import time
 import pathlib
 
 # папка для поиска
-dir_with_files = r'd:\temp\exp1'  # os.path.normpath(dir_with_files))
+root_dir_with_files = r'd:\temp\exp1'
 
 # количество баз в папке
-db_quantity_in_dir = 2
+quantity_files_in_dir = 5
 
 # расширения файлов для поиска
 extension_list = ('rar', 'zip', 'dt', '7z')
@@ -50,25 +49,26 @@ def kill_proc_winrar():
 def del_arc_files(folder_value, files_value):
     # смена текущей папки для поиска файла
     os.chdir(folder_value)
-    print()
 
-    if len(files_value) > db_quantity_in_dir:
+    if len(files_value) > quantity_files_in_dir:
+        print()
         print(folder_value)
+
         for file in files_value:
             print(' '*2, file, end=' ')
-            print('... размер файла =',
+            print('... размер =',
                   human_read_format(os.stat(os.path.join(folder_value, file)).st_size),
                   '... в байтах =',
                   os.stat(os.path.join(folder_value, file)).st_size,
-                  '... даты =',
+                  '... дата =',
                   time.ctime(os.stat(os.path.join(folder_value, file)).st_ctime),
                   end=' '
                   )
 
             if os.stat(file).st_size > 0:
                 print(' '*8, '--- удаляю файл', file)  # TODO сделать удаление файла через try - except
-    else:
-        print(f'_в папке {folder_value} файлов {len(files_value)} штук')
+    # else:
+    #     print(f'_в папке {folder_value} файлов {len(files_value)} штук')
 
 # функция для поиска файлов в исходной папке
 def search_files(dir_value):
@@ -79,6 +79,6 @@ def search_files(dir_value):
 # новая модная фича как запускать прогу
 if __name__ == '__main__':
     kill_proc_winrar()  # удаляю зависшие процессы winrar
-    search_files(dir_with_files)  # ищу и удаляю "лишние файлы"
+    search_files(root_dir_with_files)  # ищу и удаляю "лишние файлы"
 
 
