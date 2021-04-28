@@ -25,7 +25,7 @@ root_dir_with_files = r'd:\temp\exp1'
 quantity_files_in_dir = 5
 
 # расширения файлов для поиска
-extension_list = ('rar', 'zip', 'dt', '7z')
+extension_list = ('.rar', '.zip', '.dt', '.7z')
 
 # почта на которую отправится алерт
 email_alert = 'noook@yandex.ru'
