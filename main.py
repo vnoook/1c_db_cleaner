@@ -15,11 +15,8 @@
 #     б) логи после удаления
 
 import os
-import sys
 import math
 import time
-import pathlib
-import textwrap
 
 # папка для поиска
 root_dir_with_files = r'd:\temp\exp1'
@@ -36,19 +33,22 @@ email_alert = 'noook@yandex.ru'
 # переменная для
 average_size_file_in_dir = 0
 
+
 # функция не моя, взял с инета
-def human_read_format(sizeF):
+def human_read_format(size_file):
     sizeF_human_read_format = 0
-    if sizeF != 0:
-        pwr = math.floor(math.log(sizeF, 1024))
+    if size_file != 0:
+        pwr = math.floor(math.log(size_file, 1024))
         suff = ['Б', 'КБ', 'МБ', 'ГБ', 'ТБ', 'ПБ', 'ЭБ', 'ЗБ', 'ЙБ']
-        if sizeF > 1024 ** (len(suff) - 1):
+        if size_file > 1024 ** (len(suff) - 1):
             return 'не знаю как назвать такое число :)'
-        sizeF_human_read_format = f'{sizeF / 1024 ** pwr:.0f}{suff[pwr]}'
+        sizeF_human_read_format = f'{size_file / 1024 ** pwr:.0f}{suff[pwr]}'
     return sizeF_human_read_format
+
 
 def kill_proc_winrar():
     pass
+
 
 def count_max_name_files(files_value):
     max_name_file = 0
@@ -56,6 +56,7 @@ def count_max_name_files(files_value):
         if max_name_file < len(file):
             max_name_file = len(file)
     return max_name_file
+
 
 # функция для определения и удаления "лишних" файлов в папке
 def del_arc_files(folder_value, files_value):
@@ -70,27 +71,27 @@ def del_arc_files(folder_value, files_value):
 
         for file in files_value:
             print(' '*3, file, '.'*(max_space-len(file)),
-                  '... размер =', human_read_format(os.stat(os.path.join(folder_value, file)).st_size),
-                  '... в байтах =', os.stat(os.path.join(folder_value, file)).st_size,
-                  '... дата =', time.ctime(os.stat(os.path.join(folder_value, file)).st_ctime),
-                  end=' '
+                  ' размер = ', human_read_format(os.stat(os.path.join(folder_value, file)).st_size),
+                  ' ... в байтах = ', os.stat(os.path.join(folder_value, file)).st_size,
+                  ' ... дата = ', time.ctime(os.stat(os.path.join(folder_value, file)).st_ctime),
+                  end=' ', sep=''
                   )
 
             # TODO сделать удаление файла через try - except
             if os.stat(file).st_size == 0:
-                print(' ' * 4, '!!! файл нулевой длины? точно удаляю')
-            elif os.stat(file).st_size > 0:
-                print(' '*4, '--- удаляю файл')
+                print(' '*4, '!!! файл нулевой длины !!! точно удаляю')
+            else:
+                print(' '*4, '--- надо подумать')
+
 
 # функция для поиска файлов в исходной папке
 def search_files(dir_value):
     for folders, dirs, files in os.walk(dir_value):
         del_arc_files(folders, files)
 
+
 # -------------------------------------------------------- #
 # новая модная фича как запускать прогу
 if __name__ == '__main__':
     kill_proc_winrar()  # удаляю зависшие процессы winrar
     search_files(root_dir_with_files)  # ищу и удаляю "лишние файлы"
-
-
