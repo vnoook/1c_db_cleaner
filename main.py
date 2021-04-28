@@ -36,11 +36,14 @@ average_size_file_in_dir = 0
 
 # функция не моя, взял с инета
 def human_read_format(sizeF):
-    pwr = math.floor(math.log(sizeF, 1024))
-    suff = ['Б', 'КБ', 'МБ', 'ГБ', 'ТБ', 'ПБ', 'ЭБ', 'ЗБ', 'ЙБ']
-    if sizeF > 1024 ** (len(suff) - 1):
-        return 'не знаю как назвать такое число :)'
-    return f'{sizeF / 1024 ** pwr:.0f}{suff[pwr]}'
+    sizeF_human_read_format = 0
+    if sizeF != 0:
+        pwr = math.floor(math.log(sizeF, 1024))
+        suff = ['Б', 'КБ', 'МБ', 'ГБ', 'ТБ', 'ПБ', 'ЭБ', 'ЗБ', 'ЙБ']
+        if sizeF > 1024 ** (len(suff) - 1):
+            return 'не знаю как назвать такое число :)'
+        sizeF_human_read_format = f'{sizeF / 1024 ** pwr:.0f}{suff[pwr]}'
+    return sizeF_human_read_format
 
 def kill_proc_winrar():
     pass
@@ -66,7 +69,7 @@ def del_arc_files(folder_value, files_value):
                   )
 
             if os.stat(file).st_size > 0:
-                print(' '*8, '--- удаляю файл', file)  # TODO сделать удаление файла через try - except
+                print(' '*2, '--- удаляю файл', file)  # TODO сделать удаление файла через try - except
     # else:
     #     print(f'_в папке {folder_value} файлов {len(files_value)} штук')
 
