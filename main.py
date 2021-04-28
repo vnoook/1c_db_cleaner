@@ -103,3 +103,6 @@ def del_arc_files(folder_value):
 if __name__ == '__main__':
     kill_proc_winrar()  # удаляю зависшие процессы winrar
     del_arc_files(root_dir_with_files)  # ищу и удаляю "лишние файлы"
+
+
+
