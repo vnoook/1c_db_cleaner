@@ -77,9 +77,9 @@ def del_arc_files(folder_value):
                       ' ... дата = ', time.ctime(os.stat(os.path.join(folders, file)).st_ctime),
                       end=' ', sep=''
                       )
+
                 if os.stat(file).st_size == 0:
                     print(' '*4, '!!! файл нулевой длины !!! точно удаляю')
-
                     try:
                         os.remove(file)
                         print(' '*4 + '_'*50 + f'Файл {file} удалён')
@@ -91,7 +91,6 @@ def del_arc_files(folder_value):
                         pass
                     finally:
                         pass
-
                 elif os.stat(file).st_size > 10485760:
                     print(' '*4, '--- файл больше 10 МБ')
                 else:
