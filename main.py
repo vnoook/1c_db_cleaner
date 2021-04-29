@@ -45,11 +45,11 @@ def human_read_format(size_file):
         sizeF_human_read_format = f'{size_file / 1024 ** pwr:.0f}{suff[pwr]}'
     return sizeF_human_read_format
 
-
+# для удаления процессов winrar в памяти
 def kill_proc_winrar():
     pass
 
-
+# подсчёт самого длинного названия файла
 def count_max_name_files(files_value):
     max_name_file = 0
     for file in files_value:
