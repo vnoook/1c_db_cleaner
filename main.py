@@ -17,6 +17,7 @@
 import os
 import math
 import time
+import shutil
 
 # папка для поиска
 root_dir_with_files = r'd:\temp\exp1'
@@ -57,6 +58,10 @@ def count_max_name_files(files_value):
             max_name_file = len(file)
     return max_name_file
 
+# расчёт места на диске
+def free_space_disk(folder_value):
+    total_space, used_space, free_space = shutil.disk_usage(folder_value)
+    return human_read_format(free_space)
 
 # функция для определения и удаления "лишних" файлов в папке
 def del_arc_files(folder_value):
@@ -103,3 +108,6 @@ def del_arc_files(folder_value):
 if __name__ == '__main__':
     kill_proc_winrar()  # удаляю зависшие процессы winrar
     del_arc_files(root_dir_with_files)  # ищу и удаляю "лишние файлы"
+
+    print()
+    print(free_space_disk(root_dir_with_files))
