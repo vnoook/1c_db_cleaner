@@ -37,18 +37,20 @@ average_size_file_in_dir = 0
 
 # функция не моя, взял с инета
 def human_read_format(size_file):
-    sizeF_human_read_format = 0
+    size_file_human_format = 0
     if size_file != 0:
         pwr = math.floor(math.log(size_file, 1024))
         suff = ['Б', 'КБ', 'МБ', 'ГБ', 'ТБ', 'ПБ', 'ЭБ', 'ЗБ', 'ЙБ']
         if size_file > 1024 ** (len(suff) - 1):
             return 'не знаю как назвать такое число :)'
-        sizeF_human_read_format = f'{size_file / 1024 ** pwr:.0f}{suff[pwr]}'
-    return sizeF_human_read_format
+        size_file_human_format = f'{size_file / 1024 ** pwr:.0f}{suff[pwr]}'
+    return size_file_human_format
+
 
 # для удаления процессов winrar в памяти
 def kill_proc_winrar():
     pass
+
 
 # подсчёт самого длинного названия файла
 def count_max_name_files(files_value):
@@ -58,10 +60,12 @@ def count_max_name_files(files_value):
             max_name_file = len(file)
     return max_name_file
 
+
 # расчёт места на диске
 def free_space_disk(folder_value):
     total_space, used_space, free_space = shutil.disk_usage(folder_value)
     return human_read_format(free_space)
+
 
 # функция для определения и удаления "лишних" файлов в папке
 def del_arc_files(folder_value):
@@ -81,29 +85,30 @@ def del_arc_files(folder_value):
                       ' ... дата = ', time.ctime(os.stat(os.path.join(folders, file)).st_ctime)
                       # end=' ', sep=''
                       )
-                    # if os.stat(file).st_size < 1048576:
-                    #     print(' '*4, '!!! файл малой длины - удаляю !!!')
-                    #     try:
-                    #         os.remove(file)
-                    #         print(' '*4 + '_'*50 + f'Файл {file} удалён')
-                    #     except PermissionError as errorPE:
-                    #         print(' '*4 + '_'*50 + f'Ошибка: нет доступа для удаления файла {errorPE.filename} - {errorPE.strerror}')
-                    #     except FileNotFoundError as errorFNFE:
-                    #         print(' '*4 + '_'*50 + f'Ошибка: файл не найден {errorFNFE.filename} - {errorFNFE.strerror}')
-                    #     else:
-                    #         pass
-                    #     finally:
-                    #         pass
-                    # elif os.stat(file).st_size > 10485760:
-                    #     print(' '*4, '--- файл больше 10 МБ')
-                    # else:
-                    #     print(' '*4, '--- надо подумать')
+
+                # if os.stat(file).st_size < 1048576:
+                #     print(' '*4, '!!! файл малой длины - удаляю !!!')
+                #     try:
+                #         os.remove(file)
+                #         print(' '*4 + '_'*50 + f'Файл {file} удалён')
+                #     except PermissionError as errorPE:
+                #         print(' '*4 + '_'*50 +
+                #               f'Ошибка: нет доступа для удаления файла {errorPE.filename} - {errorPE.strerror}'
+                #               )
+                #     except FileNotFoundError as errorFNFE:
+                #         print(' '*4 + '_'*50 + f'Ошибка: файл не найден {errorFNFE.filename} - {errorFNFE.strerror}')
+                #     else:
+                #         pass
+                #     finally:
+                #         pass
+                # elif os.stat(file).st_size > 10485760:
+                #     print(' '*4, '--- файл больше 10 МБ')
+                # else:
+                #     print(' '*4, '--- надо подумать')
 
         # if len(files) > quantity_files_in_dir:
 
 
-
-# -------------------------------------------------------- #
 # новая модная фича как запускать прогу
 if __name__ == '__main__':
     kill_proc_winrar()  # удаляю зависшие процессы winrar
