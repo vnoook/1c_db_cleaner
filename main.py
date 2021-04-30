@@ -72,11 +72,17 @@ def del_arc_files(folder_value):
     for folders, dirs, files in os.walk(folder_value):
         # смена текущей папки для поиска файла
         os.chdir(folders)
-
+        # поиск самого длинного имени в папке
         max_space = count_max_name_files(files)
+        # нужно ли выводить название папки или нет, если в папке нет файлов с расширением из extension_list
+        flag_exist_ext = False
+        for file in files:
+            if not flag_exist_ext:
+                if os.path.splitext(file)[1] in extension_list:
+                    print()
+                    print(folders)
+                    flag_exist_ext = True
 
-        print()
-        print(folders)
         for file in files:
             if os.path.splitext(file)[1] in extension_list:
                 print(' '*3, file, '.'*(max_space - len(file)),
