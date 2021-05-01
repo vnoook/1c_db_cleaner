@@ -34,6 +34,9 @@ email_alert = 'noook@yandex.ru'
 # переменная для
 average_size_file_in_dir = 0
 
+# переменная для удаления
+flag_del = False
+
 
 # функция не моя, взял с инета
 def human_read_format(size_file):
@@ -49,6 +52,7 @@ def human_read_format(size_file):
 
 # для удаления процессов winrar в памяти
 def kill_proc_winrar():
+    # TODO
     pass
 
 
@@ -99,7 +103,8 @@ def del_arc_files(folder_value):
                     if os.stat(file).st_size < 1048576:
                         print(' '*4, '!!! файл малой длины - удаляю !!!', end=' ', sep='')
                         try:
-                            # os.remove(file)
+                            if flag_del:
+                                os.remove(file)
                             # print(' '*4 + '_'*50 + f'Файл {file} удалён')
                             print(' ______________ удалён')
                         except PermissionError as errorPE:
@@ -108,10 +113,6 @@ def del_arc_files(folder_value):
                                   )
                         except FileNotFoundError as errorFNFE:
                             print(' '*4 + '_'*50 + f'Ошибка: файл не найден {errorFNFE.filename} - {errorFNFE.strerror}')
-                        else:
-                            pass
-                        finally:
-                            pass
                     elif os.stat(file).st_size > 10485760:
                         print(' '*4, '--- файл больше 10 МБ')
                     else:
