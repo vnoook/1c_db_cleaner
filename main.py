@@ -56,8 +56,9 @@ def kill_proc_winrar():
 def count_max_name_files(files_value):
     max_name_file = 0
     for file in files_value:
-        if max_name_file < len(file):
-            max_name_file = len(file)
+        if os.path.splitext(file)[1] in extension_list:
+            if max_name_file < len(file):
+                max_name_file = len(file)
     return max_name_file
 
 
@@ -78,21 +79,29 @@ def del_arc_files(folder_value):
 
         # нужно ли выводить название папки или нет, если в папке нет файлов с расширением из extension_list
         flag_exist_ext = False
-        for file in files:
-            if not flag_exist_ext:
-                if os.path.splitext(file)[1] in extension_list:
-                    print()
-                    print(folders)
-                    flag_exist_ext = True
+        i_files_in_dir = 0
+        while not flag_exist_ext and i_files_in_dir<len(files):
+            if os.path.splitext(files[i_files_in_dir])[1] in extension_list:
+                flag_exist_ext = True
+            i_files_in_dir += 1
 
-        for file in files:
-            if os.path.splitext(file)[1] in extension_list:
-                print(' '*3, file, '.'*(max_space - len(file)),
-                      ' ... размер = ', human_read_format(os.stat(os.path.join(folders, file)).st_size),
-                      ' ... в байтах = ', os.stat(os.path.join(folders, file)).st_size,
-                      ' ... дата = ', time.ctime(os.stat(os.path.join(folders, file)).st_ctime)
-                      # end=' ', sep=''
-                      )
+        if flag_exist_ext:
+            print()
+            print(folders)
+            for file in files:
+                if os.path.splitext(file)[1] in extension_list:
+                    print(' '*3, file, '.'*(max_space - len(file)) +
+                          '. размер =', human_read_format(os.stat(os.path.join(folders, file)).st_size),
+                          '... в байтах =', os.stat(os.path.join(folders, file)).st_size,
+                          '... дата =', time.ctime(os.stat(os.path.join(folders, file)).st_ctime)
+                          # end=' ', sep=''
+                          )
+
+
+        # flag_exist_ext = False
+        # for file in files:
+        #     if not flag_exist_ext:
+
 
                 # if os.stat(file).st_size < 1048576:
                 #     print(' '*4, '!!! файл малой длины - удаляю !!!')
