@@ -90,38 +90,32 @@ def del_arc_files(folder_value):
             print(folders)
             for file in files:
                 if os.path.splitext(file)[1] in extension_list:
-                    print(' '*3, file, '.'*(max_space - len(file)) +
-                          '. размер =', human_read_format(os.stat(os.path.join(folders, file)).st_size),
-                          '... в байтах =', os.stat(os.path.join(folders, file)).st_size,
-                          '... дата =', time.ctime(os.stat(os.path.join(folders, file)).st_ctime)
-                          # end=' ', sep=''
+                    print(' '*3, file, '.'*(max_space - len(file)),
+                          '. размер = ', human_read_format(os.stat(os.path.join(folders, file)).st_size),
+                          ' ... в байтах = ', os.stat(os.path.join(folders, file)).st_size,
+                          ' ... дата = ', time.ctime(os.stat(os.path.join(folders, file)).st_ctime),
+                          end=' ', sep=''
                           )
-
-
-        # flag_exist_ext = False
-        # for file in files:
-        #     if not flag_exist_ext:
-
-
-                # if os.stat(file).st_size < 1048576:
-                #     print(' '*4, '!!! файл малой длины - удаляю !!!')
-                #     try:
-                #         os.remove(file)
-                #         print(' '*4 + '_'*50 + f'Файл {file} удалён')
-                #     except PermissionError as errorPE:
-                #         print(' '*4 + '_'*50 +
-                #               f'Ошибка: нет доступа для удаления файла {errorPE.filename} - {errorPE.strerror}'
-                #               )
-                #     except FileNotFoundError as errorFNFE:
-                #         print(' '*4 + '_'*50 + f'Ошибка: файл не найден {errorFNFE.filename} - {errorFNFE.strerror}')
-                #     else:
-                #         pass
-                #     finally:
-                #         pass
-                # elif os.stat(file).st_size > 10485760:
-                #     print(' '*4, '--- файл больше 10 МБ')
-                # else:
-                #     print(' '*4, '--- надо подумать')
+                    if os.stat(file).st_size < 1048576:
+                        print(' '*4, '!!! файл малой длины - удаляю !!!', end=' ', sep='')
+                        try:
+                            # os.remove(file)
+                            # print(' '*4 + '_'*50 + f'Файл {file} удалён')
+                            print(' ______________ удалён')
+                        except PermissionError as errorPE:
+                            print(' '*4 + '_'*50 +
+                                  f'Ошибка: нет доступа для удаления файла {errorPE.filename} - {errorPE.strerror}'
+                                  )
+                        except FileNotFoundError as errorFNFE:
+                            print(' '*4 + '_'*50 + f'Ошибка: файл не найден {errorFNFE.filename} - {errorFNFE.strerror}')
+                        else:
+                            pass
+                        finally:
+                            pass
+                    elif os.stat(file).st_size > 10485760:
+                        print(' '*4, '--- файл больше 10 МБ')
+                    else:
+                        print(' '*4, '--- надо подумать')
 
         # if len(files) > quantity_files_in_dir:
 
