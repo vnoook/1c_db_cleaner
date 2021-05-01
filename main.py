@@ -35,7 +35,7 @@ email_alert = 'noook@yandex.ru'
 average_size_file_in_dir = 0
 
 # переменная для удаления
-flag_del = False
+flag_del = True
 
 
 # функция не моя, взял с инета
