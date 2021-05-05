@@ -89,9 +89,13 @@ def del_arc_files(folder_value):
                 flag_exist_ext = True
             i_files_in_dir += 1
 
+        # если файлы из extension_list есть в папке, то ищутся файлы малой длины и удаляются
+        # потому что они создаются в момент блокировки архиватором открытой базы, но "пустые"
         if flag_exist_ext:
             print()
             print(folders)
+
+            # поиск фалов малой длины и удаление их
             for file in files:
                 if os.path.splitext(file)[1] in extension_list:
                     print(' '*3, file, '.'*(max_space - len(file)),
@@ -118,6 +122,7 @@ def del_arc_files(folder_value):
                     else:
                         print(' '*4, '--- надо подумать')
 
+        # надо посчитать сколько удалено файлов, вычесть из общего количества и потом сравнивать
         # if len(files) > quantity_files_in_dir:
 
 
