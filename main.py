@@ -35,7 +35,7 @@ email_alert = 'noook@yandex.ru'
 average_size_file_in_dir = 0
 
 # переменная для удаления
-flag_del = True
+flag_del = False
 
 
 # функция не моя, взял с инета
@@ -84,7 +84,7 @@ def del_arc_files(folder_value):
         # нужно ли выводить название папки или нет, если в папке нет файлов с расширением из extension_list
         flag_exist_ext = False
         i_files_in_dir = 0
-        while not flag_exist_ext and i_files_in_dir<len(files):
+        while not flag_exist_ext and i_files_in_dir < len(files):
             if os.path.splitext(files[i_files_in_dir])[1] in extension_list:
                 flag_exist_ext = True
             i_files_in_dir += 1
