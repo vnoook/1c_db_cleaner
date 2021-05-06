@@ -130,15 +130,15 @@ def del_arc_files(folder_value):
                         print(' '*4, '--- надо подумать')
 
             # надо посчитать сколько удалено файлов, вычесть из общего количества и потом сравнивать
-            print('было', count_arc_files)
-            print('удалил', count_del_files)
-            print('осталось', count_arc_files-count_del_files)
+            # print('было', count_arc_files)
+            # print('удалил', count_del_files)
+            # print('осталось', count_arc_files-count_del_files)
 
             # если осталось больше чем quantity_files_in_dir то продолжаю их обрабатывать
             if count_arc_files-count_del_files > quantity_files_in_dir:
+                print(f'осталось {count_arc_files-count_del_files} файлов, продолжаю их обрабатывать')
                 pass
-                print(f'осталось {count_arc_files-count_del_files} файлов')
-                print(f'продолжаю их обрабатывать')
+
 
 
 
