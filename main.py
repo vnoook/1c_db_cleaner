@@ -35,7 +35,7 @@ email_alert = 'noook@yandex.ru'
 average_size_file_in_dir = 0
 
 # переменная для удаления
-flag_del = False
+flag_del = True
 
 
 # функция не моя, взял с инета
@@ -81,6 +81,10 @@ def del_arc_files(folder_value):
         # поиск самого длинного имени в папке
         max_space = count_max_name_files(files)
 
+        # количество файлов из extension_list и удалённых файлов
+        count_arc_files = 0
+        count_del_files = 0
+
         # нужно ли выводить название папки или нет, если в папке нет файлов с расширением из extension_list
         flag_exist_ext = False
         i_files_in_dir = 0
@@ -88,6 +92,7 @@ def del_arc_files(folder_value):
             if os.path.splitext(files[i_files_in_dir])[1] in extension_list:
                 flag_exist_ext = True
             i_files_in_dir += 1
+
 
         # если файлы из extension_list есть в папке, то ищутся файлы малой длины и удаляются
         # потому что они создаются в момент блокировки архиватором открытой базы, но "пустые"
@@ -98,6 +103,7 @@ def del_arc_files(folder_value):
             # поиск фалов малой длины и удаление их
             for file in files:
                 if os.path.splitext(file)[1] in extension_list:
+                    count_arc_files += 1
                     print(' '*3, file, '.'*(max_space - len(file)),
                           '. размер = ', human_read_format(os.stat(os.path.join(folders, file)).st_size),
                           ' ... в байтах = ', os.stat(os.path.join(folders, file)).st_size,
@@ -109,6 +115,7 @@ def del_arc_files(folder_value):
                         try:
                             if flag_del:
                                 os.remove(file)
+                                count_del_files += 1
                             # print(' '*4 + '_'*50 + f'Файл {file} удалён')
                             print(' ______________ удалён')
                         except PermissionError as errorPE:
@@ -122,8 +129,18 @@ def del_arc_files(folder_value):
                     else:
                         print(' '*4, '--- надо подумать')
 
-        # надо посчитать сколько удалено файлов, вычесть из общего количества и потом сравнивать
-        # if len(files) > quantity_files_in_dir:
+            # надо посчитать сколько удалено файлов, вычесть из общего количества и потом сравнивать
+            print('было', count_arc_files)
+            print('удалил', count_del_files)
+            print('осталось', count_arc_files-count_del_files)
+
+            # если осталось больше чем quantity_files_in_dir то продолжаю их обрабатывать
+            if count_arc_files-count_del_files > quantity_files_in_dir:
+                pass
+                print(f'осталось {count_arc_files-count_del_files} файлов')
+                print(f'продолжаю их обрабатывать')
+
+
 
 
 # новая модная фича как запускать прогу
