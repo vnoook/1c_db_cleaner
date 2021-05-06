@@ -35,7 +35,7 @@ email_alert = 'noook@yandex.ru'
 average_size_file_in_dir = 0
 
 # переменная для удаления
-flag_del = True
+flag_del = False
 
 
 # функция не моя, взял с инета
@@ -107,7 +107,8 @@ def del_arc_files(folder_value):
                     print(' '*3, file, '.'*(max_space - len(file)),
                           '. размер = ', human_read_format(os.stat(os.path.join(folders, file)).st_size),
                           ' ... в байтах = ', os.stat(os.path.join(folders, file)).st_size,
-                          ' ... дата = ', time.ctime(os.stat(os.path.join(folders, file)).st_ctime),
+                          ' ... дата = ', os.stat(os.path.join(folders, file)).st_ctime,
+                          ' ... дата человеческая = ', time.ctime(os.stat(os.path.join(folders, file)).st_ctime),
                           end=' ', sep=''
                           )
                     if os.stat(file).st_size < 1048576:
@@ -125,7 +126,16 @@ def del_arc_files(folder_value):
                         except FileNotFoundError as errorFNFE:
                             print(' '*4 + '_'*50 + f'Ошибка: файл не найден {errorFNFE.filename} - {errorFNFE.strerror}')
                     elif os.stat(file).st_size > 10485760:
-                        print(' '*4, '--- файл больше 10 МБ')
+                        print(' '*4, '--- файл больше минимума')
+                        # вот тут надо продолжить обрабатывать файлы
+                        # сделать кортеж из данных
+                        #  - полный путь, размер в байтах, размер человеческий, дата, дата человеческая,...
+
+
+
+
+
+
                     else:
                         print(' '*4, '--- надо подумать')
 
