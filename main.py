@@ -19,6 +19,9 @@ import math
 import time
 import shutil
 
+# переменная для удаления
+flag_del = False
+
 # папка для поиска
 root_dir_with_files = r'd:\temp\exp1'
 
@@ -33,9 +36,6 @@ email_alert = 'noook@yandex.ru'
 
 # переменная для
 average_size_file_in_dir = 0
-
-# переменная для удаления
-flag_del = False
 
 
 # функция не моя, взял с инета
@@ -85,9 +85,6 @@ def del_arc_files(folder_value):
         count_arc_files = 0
         count_del_files = 0
 
-        inf_size_file = 0
-        inf_time_file = 0
-
         # нужно ли выводить название папки или нет, если в папке нет файлов с расширением из extension_list
         flag_exist_ext = False
         i_files_in_dir = 0
@@ -134,10 +131,8 @@ def del_arc_files(folder_value):
                         # сделать кортеж из данных
                         #  - полный путь, размер в байтах, размер человеческий, дата, дата человеческая,...
 
-                        print(f'размер {inf_size_file} - {os.stat(os.path.join(folders, file)).st_size} = {inf_size_file - os.stat(os.path.join(folders, file)).st_size}')
-                        print(f'время  {inf_time_file} - {os.stat(os.path.join(folders, file)).st_ctime} = {inf_time_file - os.stat(os.path.join(folders, file)).st_ctime}')
-                        inf_size_file = os.stat(os.path.join(folders, file)).st_size
-                        inf_time_file = os.stat(os.path.join(folders, file)).st_ctime
+                        x = x.append()
+
 
                     else:
                         print(' '*4, '--- надо подумать')
@@ -151,8 +146,6 @@ def del_arc_files(folder_value):
             if count_arc_files-count_del_files > quantity_files_in_dir:
                 print(f'осталось {count_arc_files-count_del_files} файлов, продолжаю их обрабатывать')
                 pass
-
-
 
 
 # новая модная фича как запускать прогу
