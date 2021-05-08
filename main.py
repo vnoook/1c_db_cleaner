@@ -20,7 +20,7 @@ import time
 import shutil
 
 # переменная для удаления
-flag_del = False
+flag_del = True
 
 # папка для поиска
 root_dir_with_files = r'd:\temp\exp1'
@@ -72,8 +72,8 @@ def free_space_disk(folder_value):
     return human_read_format(free_space)
 
 
-# функция для определения и удаления "лишних" файлов в папке
-def del_arc_files(folder_value):
+# функция для определения и удаления "мелких" файлов в папке
+def del_small_files(folder_value):
     for folders, dirs, files in os.walk(folder_value):
         # смена текущей папки для поиска файла
         os.chdir(folders)
@@ -150,7 +150,7 @@ def del_arc_files(folder_value):
 # новая модная фича как запускать прогу
 if __name__ == '__main__':
     kill_proc_winrar()  # удаляю зависшие процессы winrar
-    del_arc_files(root_dir_with_files)  # ищу и удаляю "лишние файлы"
+    del_small_files(root_dir_with_files)  # ищу и удаляю "мелкие файлы"
 
     print()
     print(free_space_disk(root_dir_with_files))
