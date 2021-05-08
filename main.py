@@ -73,7 +73,7 @@ def free_space_disk(folder_value):
 
 
 # функция для определения и удаления "мелких" файлов в папке
-def del_small_files(folder_value):
+def del_arc_files(folder_value):
     for folders, dirs, files in os.walk(folder_value):
         # смена текущей папки для поиска файла
         os.chdir(folders)
@@ -150,7 +150,7 @@ def del_small_files(folder_value):
 # новая модная фича как запускать прогу
 if __name__ == '__main__':
     kill_proc_winrar()  # удаляю зависшие процессы winrar
-    del_small_files(root_dir_with_files)  # ищу и удаляю "мелкие файлы"
+    del_arc_files(root_dir_with_files)  # ищу и удаляю "мелкие файлы"
 
     print()
     print(free_space_disk(root_dir_with_files))
