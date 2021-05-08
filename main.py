@@ -20,7 +20,7 @@ import time
 import shutil
 
 # переменная для удаления
-flag_del = True
+flag_del = False
 
 # папка для поиска
 root_dir_with_files = r'd:\temp\exp1'
@@ -85,6 +85,8 @@ def del_arc_files(folder_value):
         count_arc_files = 0
         count_del_files = 0
 
+        list_big_files = []
+
         # нужно ли выводить название папки или нет, если в папке нет файлов с расширением из extension_list
         flag_exist_ext = False
         i_files_in_dir = 0
@@ -131,7 +133,7 @@ def del_arc_files(folder_value):
                         # сделать кортеж из данных
                         #  - полный путь, размер в байтах, размер человеческий, дата, дата человеческая,...
 
-
+                        list_big_files.append([os.stat(os.path.join(folders, file)).st_size, os.path.join(folders, file)])
 
                     else:
                         print(' '*4, '--- надо подумать')
@@ -142,9 +144,10 @@ def del_arc_files(folder_value):
             # print('осталось', count_arc_files-count_del_files)
 
             # если осталось больше чем quantity_files_in_dir то продолжаю их обрабатывать
-            if count_arc_files-count_del_files > quantity_files_in_dir:
-                print(f'осталось {count_arc_files-count_del_files} файлов, продолжаю их обрабатывать')
-                pass
+            if len(list_big_files) > quantity_files_in_dir:
+                # print(f'осталось {count_arc_files-count_del_files} файлов, продолжаю их обрабатывать')
+                print(*list_big_files, sep='\n')
+
 
 
 # новая модная фича как запускать прогу
