@@ -31,6 +31,8 @@ quantity_files_in_dir = 5
 # расширения файлов для поиска
 extension_list = ('.rar', '.zip', '.dt', '.7z')
 
+min_size = 10485760  # 10 Mb
+
 # почта на которую отправится алерт
 email_alert = 'noook@yandex.ru'
 
@@ -113,7 +115,8 @@ def del_arc_files(folder_value):
                           ' ... дата человеческая = ', time.ctime(os.stat(os.path.join(folders, file)).st_ctime),
                           end=' ', sep=''
                           )
-                    if os.stat(file).st_size < 1048576:
+
+                    if os.stat(file).st_size <= min_size:
                         print(' '*4, '!!! файл малой длины - удаляю !!!', end=' ', sep='')
                         try:
                             if flag_del:
@@ -127,7 +130,8 @@ def del_arc_files(folder_value):
                                   )
                         except FileNotFoundError as errorFNFE:
                             print(' '*4 + '_'*50 + f'Ошибка: файл не найден {errorFNFE.filename} - {errorFNFE.strerror}')
-                    elif os.stat(file).st_size > 10485760:
+
+                    elif os.stat(file).st_size > min_size:
                         print(' '*4, '--- файл больше минимума')
                         # вот тут надо продолжить обрабатывать файлы
                         # сделать кортеж из данных
