@@ -111,8 +111,8 @@ def del_arc_files(folder_value):
                     print(' '*3, file, '.'*(max_space - len(file)),
                           '. размер = ', human_read_format(os.stat(os.path.join(folders, file)).st_size),
                           ' ... в байтах = ', os.stat(os.path.join(folders, file)).st_size,
-                          ' ... дата = ', os.stat(os.path.join(folders, file)).st_ctime,
-                          ' ... дата человеческая = ', time.ctime(os.stat(os.path.join(folders, file)).st_ctime),
+                          ' ... дата = ', os.stat(os.path.join(folders, file)).st_mtime,
+                          ' ... дата человеческая = ', time.ctime(os.stat(os.path.join(folders, file)).st_mtime),
                           end=' ', sep=''
                           )
 
@@ -133,17 +133,17 @@ def del_arc_files(folder_value):
 
                     elif os.stat(file).st_size > min_size:
                         print(' '*4, '--- файл больше минимума')
-                        list_big_files.append([os.stat(os.path.join(folders, file)).st_ctime, os.path.join(folders, file)])
+                        list_big_files.append([os.stat(os.path.join(folders, file)).st_mtime, os.path.join(folders, file)])
 
                     else:
                         print(' '*4, '--- надо подумать')
 
             # если осталось больше чем quantity_files_in_dir то продолжаю их обрабатывать
             if len(list_big_files) > quantity_files_in_dir:
-                # print()
-                # print(*list_big_files, sep='\n')
+                print()
+                print(*list_big_files, sep='\n')
                 list_sort_big_files = sorted(list_big_files, key=lambda size_big_file: size_big_file[0], reverse=True)
-                # print()
+                print()
                 print(*list_sort_big_files, sep='\n')
 
 
