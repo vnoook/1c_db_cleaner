@@ -133,11 +133,7 @@ def del_arc_files(folder_value):
 
                     elif os.stat(file).st_size > min_size:
                         print(' '*4, '--- файл больше минимума')
-                        # вот тут надо продолжить обрабатывать файлы
-                        # сделать кортеж из данных
-                        #  - полный путь, размер в байтах, размер человеческий, дата, дата человеческая,...
-
-                        list_big_files.append([os.stat(os.path.join(folders, file)).st_size, os.path.join(folders, file)])
+                        list_big_files.append([os.stat(os.path.join(folders, file)).st_ctime, os.path.join(folders, file)])
 
                     else:
                         print(' '*4, '--- надо подумать')
@@ -152,7 +148,7 @@ def del_arc_files(folder_value):
                 # print(f'осталось {count_arc_files-count_del_files} файлов, продолжаю их обрабатывать')
                 print()
                 print(*list_big_files, sep='\n')
-                list_sort_big_files = sorted(list_big_files, key=lambda size_file: list_big_files[0])
+                list_sort_big_files = sorted(list_big_files, key=lambda size_big_file: size_big_file[0], reverse=True)
                 print()
                 print(*list_sort_big_files, sep='\n')
 
