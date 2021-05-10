@@ -150,7 +150,11 @@ def del_arc_files(folder_value):
             # если осталось больше чем quantity_files_in_dir то продолжаю их обрабатывать
             if len(list_big_files) > quantity_files_in_dir:
                 # print(f'осталось {count_arc_files-count_del_files} файлов, продолжаю их обрабатывать')
+                print()
                 print(*list_big_files, sep='\n')
+                list_sort_big_files = sorted(list_big_files, key=lambda size_file: list_big_files[0])
+                print()
+                print(*list_sort_big_files, sep='\n')
 
 
 
