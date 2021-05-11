@@ -153,17 +153,17 @@ def del_arc_files(folder_value):
                     if list_sort_big_files.index(file_data) >= quantity_files_in_dir:
                         print(f'   удаляю файл {file_data[1]} с датой {file_data[0]}')
 
-                        # try:
-                        #     if flag_del:
-                        #         os.remove(file_data[1])
-                        #         count_del_big_files += 1
-                        #     print(' ______________ удалён')
-                        # except PermissionError as errorPE:
-                        #     print(' '*4 + '_'*50 +
-                        #           f'Ошибка: нет доступа для удаления файла {errorPE.filename} - {errorPE.strerror}'
-                        #           )
-                        # except FileNotFoundError as errorFNFE:
-                        #     print(' '*4+'_'*50 + f'Ошибка: файл не найден {errorFNFE.filename} - {errorFNFE.strerror}')
+                        try:
+                            if flag_del:
+                                os.remove(file_data[1])
+                                count_del_big_files += 1
+                            print(' ______________ удалён')
+                        except PermissionError as errorPE:
+                            print(' '*4 + '_'*50 +
+                                  f'Ошибка: нет доступа для удаления файла {errorPE.filename} - {errorPE.strerror}'
+                                  )
+                        except FileNotFoundError as errorFNFE:
+                            print(' '*4+'_'*50 + f'Ошибка: файл не найден {errorFNFE.filename} - {errorFNFE.strerror}')
 
                     else:
                         print(f'   оставляю файл {file_data[1]} с датой {file_data[0]}')
