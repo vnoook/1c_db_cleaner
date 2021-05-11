@@ -146,18 +146,46 @@ def del_arc_files(folder_value):
 
             # если осталось больше чем quantity_files_in_dir то продолжаю их обрабатывать
             if len(list_big_files) > quantity_files_in_dir:
-                # print()
-                # print(*list_big_files, sep='\n')
                 list_sort_big_files = sorted(list_big_files, key=lambda size_big_file: size_big_file[0], reverse=True)
-                # print()
-                # print(*list_sort_big_files, sep='\n')
 
-                print()
+
                 for file_data in list_sort_big_files:
                     if list_sort_big_files.index(file_data) >= quantity_files_in_dir:
                         print(f'   удаляю файл {file_data[1]} с датой {file_data[0]}')
+
+                        # try:
+                        #     if flag_del:
+                        #         os.remove(file_data[1])
+                        #         count_del_big_files += 1
+                        #     print(' ______________ удалён')
+                        # except PermissionError as errorPE:
+                        #     print(' '*4 + '_'*50 +
+                        #           f'Ошибка: нет доступа для удаления файла {errorPE.filename} - {errorPE.strerror}'
+                        #           )
+                        # except FileNotFoundError as errorFNFE:
+                        #     print(' '*4+'_'*50 + f'Ошибка: файл не найден {errorFNFE.filename} - {errorFNFE.strerror}')
+
                     else:
                         print(f'   оставляю файл {file_data[1]} с датой {file_data[0]}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # новая модная фича как запускать прогу
