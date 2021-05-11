@@ -146,8 +146,8 @@ def del_arc_files(folder_value):
 
             # если осталось больше чем quantity_files_in_dir то продолжаю их обрабатывать
             if len(list_big_files) > quantity_files_in_dir:
-                print()
-                print(*list_big_files, sep='\n')
+                # print()
+                # print(*list_big_files, sep='\n')
                 list_sort_big_files = sorted(list_big_files, key=lambda size_big_file: size_big_file[0], reverse=True)
                 print()
                 print(*list_sort_big_files, sep='\n')
@@ -157,6 +157,7 @@ def del_arc_files(folder_value):
 if __name__ == '__main__':
     kill_proc_winrar()  # удаляю зависшие процессы winrar
     del_arc_files(root_dir_with_files)  # ищу и удаляю "мелкие файлы"
+    send_email_stattistics()
 
     print()
-    print(free_space_disk(root_dir_with_files))
+    print(f'закрыты все процессы winrar, свободно места на диске с архивами = {free_space_disk(root_dir_with_files)} ... и статистика на почту отправлена')
