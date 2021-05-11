@@ -141,7 +141,6 @@ def del_arc_files(folder_value):
                         list_big_files.append([os.stat(os.path.join(folders, file)).st_mtime,
                                                os.path.join(folders, file)
                                                ])
-
                     else:
                         print(' '*4, '--- надо подумать')
 
