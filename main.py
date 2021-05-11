@@ -169,25 +169,6 @@ def del_arc_files(folder_value):
                         print(f'   оставляю файл {file_data[1]} с датой {file_data[0]}')
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # новая модная фича как запускать прогу
 if __name__ == '__main__':
     kill_proc_winrar()  # удаляю зависшие процессы winrar
