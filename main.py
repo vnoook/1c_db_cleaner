@@ -97,7 +97,6 @@ def del_arc_files(folder_value):
                 flag_exist_ext = True
             i_files_in_dir += 1
 
-
         # если файлы из extension_list есть в папке, то ищутся файлы малой длины и удаляются
         # потому что они создаются в момент блокировки архиватором открытой базы, но "пустые"
         if flag_exist_ext:
@@ -129,11 +128,13 @@ def del_arc_files(folder_value):
                                   f'Ошибка: нет доступа для удаления файла {errorPE.filename} - {errorPE.strerror}'
                                   )
                         except FileNotFoundError as errorFNFE:
-                            print(' '*4 + '_'*50 + f'Ошибка: файл не найден {errorFNFE.filename} - {errorFNFE.strerror}')
+                            print(' '*4+'_'*50 + f'Ошибка: файл не найден {errorFNFE.filename} - {errorFNFE.strerror}')
 
                     elif os.stat(file).st_size > min_size:
                         print(' '*4, '--- файл больше минимума')
-                        list_big_files.append([os.stat(os.path.join(folders, file)).st_mtime, os.path.join(folders, file)])
+                        list_big_files.append([os.stat(os.path.join(folders, file)).st_mtime,
+                                               os.path.join(folders, file)
+                                               ])
 
                     else:
                         print(' '*4, '--- надо подумать')
@@ -145,7 +146,6 @@ def del_arc_files(folder_value):
                 list_sort_big_files = sorted(list_big_files, key=lambda size_big_file: size_big_file[0], reverse=True)
                 print()
                 print(*list_sort_big_files, sep='\n')
-
 
 
 # новая модная фича как запускать прогу
