@@ -149,8 +149,15 @@ def del_arc_files(folder_value):
                 # print()
                 # print(*list_big_files, sep='\n')
                 list_sort_big_files = sorted(list_big_files, key=lambda size_big_file: size_big_file[0], reverse=True)
+                # print()
+                # print(*list_sort_big_files, sep='\n')
+
                 print()
-                print(*list_sort_big_files, sep='\n')
+                for file_data in list_sort_big_files:
+                    if list_sort_big_files.index(file_data) >= quantity_files_in_dir:
+                        print(f'   удаляю файл {file_data[1]} с датой {file_data[0]}')
+                    else:
+                        print(f'   оставляю файл {file_data[1]} с датой {file_data[0]}')
 
 
 # новая модная фича как запускать прогу
