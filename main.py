@@ -58,6 +58,12 @@ def kill_proc_winrar():
     pass
 
 
+# отправка статистики работы
+def send_email_stattistics():
+    # TODO
+    pass
+
+
 # подсчёт самого длинного названия файла
 def count_max_name_files(files_value):
     max_name_file = 0
