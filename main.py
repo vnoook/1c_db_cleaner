@@ -55,7 +55,8 @@ def human_read_format(size_file):
 
 # читаемый вид из времени в человеческий вид
 def human_read_date(date_file):
-    return datetime.datetime.fromtimestamp(date_file)
+    date_file_human_format = str(datetime.datetime.fromtimestamp(date_file)).split('.')[0]
+    return date_file_human_format
 
 
 # для удаления процессов winrar в памяти
