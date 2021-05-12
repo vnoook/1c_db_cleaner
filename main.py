@@ -121,7 +121,7 @@ def del_arc_files(folder_value):
                 if os.path.splitext(file)[1] in extension_list:
                     count_arc_files += 1
                     print(' '*3, file, '.'*(max_space - len(file)),
-                          '. размер = ', human_read_format(os.stat(os.path.join(folders, file)).st_size),
+                          '.. размер = ', human_read_format(os.stat(os.path.join(folders, file)).st_size),
                           ' ... в байтах = ', os.stat(os.path.join(folders, file)).st_size,
                           ' ... дата = ', os.stat(os.path.join(folders, file)).st_mtime,
                           ' ... дата человеческая = ', human_read_date(os.stat(os.path.join(folders, file)).st_mtime),
@@ -134,7 +134,6 @@ def del_arc_files(folder_value):
                             if flag_del:
                                 os.remove(file)
                                 count_del_files += 1
-                            # print(' '*4 + '_'*50 + f'Файл {file} удалён')
                             print(' ______________ удалён')
                         except PermissionError as errorPE:
                             print(' '*4 + '_'*50 +
@@ -158,7 +157,7 @@ def del_arc_files(folder_value):
 
                 for file_data in list_sort_big_files:
                     if list_sort_big_files.index(file_data) >= quantity_files_in_dir:
-                        print(f'   удаляю файл {file_data[1]} с датой {human_read_date(file_data[0])}')
+                        print(f'   удаляю файл {file_data[1]} с датой {human_read_date(file_data[0])}', end='')
 
                         try:
                             if flag_del:
