@@ -15,9 +15,10 @@
 #     б) логи после удаления
 
 import os
-import math
 import time
+import datetime
 import shutil
+import math
 
 # переменная для удаления
 flag_del = False
@@ -50,6 +51,11 @@ def human_read_format(size_file):
             return 'не знаю как назвать такое число :)'
         size_file_human_format = f'{size_file / 1024 ** pwr:.0f}{suff[pwr]}'
     return size_file_human_format
+
+
+# читаемый вид из времени в человеческий вид
+def human_read_date(date_file):
+    return datetime.datetime.fromtimestamp(date_file)
 
 
 # для удаления процессов winrar в памяти
@@ -117,7 +123,7 @@ def del_arc_files(folder_value):
                           '. размер = ', human_read_format(os.stat(os.path.join(folders, file)).st_size),
                           ' ... в байтах = ', os.stat(os.path.join(folders, file)).st_size,
                           ' ... дата = ', os.stat(os.path.join(folders, file)).st_mtime,
-                          ' ... дата человеческая = ', time.ctime(os.stat(os.path.join(folders, file)).st_mtime),
+                          ' ... дата человеческая = ', human_read_date(os.stat(os.path.join(folders, file)).st_mtime),
                           end=' ', sep=''
                           )
 
@@ -151,7 +157,7 @@ def del_arc_files(folder_value):
 
                 for file_data in list_sort_big_files:
                     if list_sort_big_files.index(file_data) >= quantity_files_in_dir:
-                        print(f'   удаляю файл {file_data[1]} с датой {file_data[0]}')
+                        print(f'   удаляю файл {file_data[1]} с датой {human_read_date(file_data[0])}')
 
                         try:
                             if flag_del:
@@ -166,7 +172,7 @@ def del_arc_files(folder_value):
                             print(' '*4+'_'*50 + f'Ошибка: файл не найден {errorFNFE.filename} - {errorFNFE.strerror}')
 
                     else:
-                        print(f'   оставляю файл {file_data[1]} с датой {file_data[0]}')
+                        print(f'   оставляю файл {file_data[1]} с датой {human_read_date(file_data[0])}')
 
 
 # новая модная фича как запускать прогу
