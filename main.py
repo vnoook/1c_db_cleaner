@@ -63,14 +63,9 @@ def human_read_date(date_file):
 # для удаления процессов winrar в памяти
 def kill_proc_winrar():
     process_winrar = 'winrar.exe'
-
     for process in psutil.process_iter():
         if process.name().lower() == process_winrar:
-            process.pid
             process.kill()
-
-    # print(psutil.process_iter(attrs=None, ad_value=None))
-    # print(*psutil.process_iter(), sep='\n')
 
 
 # отправка статистики работы
@@ -184,13 +179,11 @@ def del_arc_files(folder_value):
 
 # новая модная фича как запускать прогу
 if __name__ == '__main__':
-    print()
-
     kill_proc_winrar()  # удаляю зависшие процессы winrar
 
-    # del_arc_files(root_dir_with_files)  # ищу и удаляю "мелкие файлы"
-    #
-    # send_email_stattistics()
+    del_arc_files(root_dir_with_files)  # ищу и удаляю "мелкие файлы"
+
+    send_email_stattistics()
 
     print()
     print(f'закрыты все процессы winrar, свободно места на диске с архивами = {free_space_disk(root_dir_with_files)} ... и статистика на почту отправлена')
