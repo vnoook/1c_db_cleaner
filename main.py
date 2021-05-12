@@ -154,7 +154,6 @@ def del_arc_files(folder_value):
             if len(list_big_files) > quantity_files_in_dir:
                 list_sort_big_files = sorted(list_big_files, key=lambda size_big_file: size_big_file[0], reverse=True)
 
-
                 for file_data in list_sort_big_files:
                     if list_sort_big_files.index(file_data) >= quantity_files_in_dir:
                         print(f'   удаляю файл {file_data[1]} с датой {human_read_date(file_data[0])}', end='')
