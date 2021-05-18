@@ -33,16 +33,15 @@ quantity_files_in_dir = 5
 # расширения файлов для поиска
 extension_list = ('.rar', '.zip', '.dt', '.7z')
 
+# размер файла в байтах "минимального размера"
 min_size = 10485760  # 10 Mb
 
-# почта на которую отправится алерт
+# почта на которую отправится статистика работы
 email_alert = 'noook@yandex.ru'
-
-# переменная для
-average_size_file_in_dir = 0
 
 
 # функция не моя, взял с инета
+# читаемый вид из байтов в человеческий вид
 def human_read_format(size_file):
     size_file_human_format = 0
     if size_file != 0:
@@ -103,6 +102,7 @@ def del_arc_files(folder_value):
         count_arc_files = 0
         count_del_files = 0
 
+        # список для файлов больше минимального размера
         list_big_files = []
 
         # нужно ли выводить название папки или нет, если в папке нет файлов с расширением из extension_list
@@ -131,6 +131,7 @@ def del_arc_files(folder_value):
                           end=' ', sep=''
                           )
 
+                    # если размер файла меньше минимального, то удалить эти файлы
                     if os.stat(file).st_size <= min_size:
                         print(' '*4, '!!! файл малой длины - удаляю !!!', end=' ', sep='')
                         try:
@@ -153,7 +154,7 @@ def del_arc_files(folder_value):
                     else:
                         print(' '*4, '--- надо подумать')
 
-            # если осталось больше чем quantity_files_in_dir то продолжаю их обрабатывать
+            # если осталось больше, чем quantity_files_in_dir, то продолжаю их обрабатывать
             if len(list_big_files) > quantity_files_in_dir:
                 list_sort_big_files = sorted(list_big_files, key=lambda size_big_file: size_big_file[0], reverse=True)
 
