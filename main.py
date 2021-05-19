@@ -11,15 +11,16 @@
 #     б) сколько места на диске
 
 import os
-import time
+# import time
 import datetime
 import shutil
 import psutil
 import math
 import smtplib
 import email.utils
-import msc #импорт переменных msc_mail_server, msc_login_user, msc_login_pass,
-                            # msc_from_address, msc_to_address, msc_msg_subject
+# импорт переменных msc_mail_server, msc_login_user, msc_login_pass,
+#                  msc_from_address, msc_to_address, msc_msg_subject
+import msc
 
 # переменная для удаления
 flag_del = False
@@ -75,13 +76,13 @@ def send_email_stattistics():
 
     msg_post = 'eMail was sended by python 3'
 
-    msc_msg = '\r\n'.join((
+    msc.msc_msg = '\r\n'.join((
         f'MIME-Version: 1.0',
         f'Content-Type: text/html; charset=utf-8',
         f'Date: {email.utils.formatdate(localtime=True)}',
-        f'From: {msc_from_address}',
-        f'To: {msc_to_address}',
-        f'Subject: {msc_msg_subject}',
+        f'From: {msc.msc_from_address}',
+        f'To: {msc.msc_to_address}',
+        f'Subject: {msc.msc_msg_subject}',
         f'',
         f'{msg_post}'
     ))
