@@ -11,7 +11,6 @@
 #     б) сколько места на диске
 
 import os
-# import time
 import datetime
 import shutil
 import psutil
@@ -36,9 +35,6 @@ extension_list = ('.rar', '.zip', '.dt', '.7z')
 
 # размер файла в байтах "минимального размера"
 min_size = 10485760  # 10 Mb
-
-# почта на которую отправится статистика работы
-email_alert = 'noook@yandex.ru'
 
 
 # функция не моя, взял с инета
