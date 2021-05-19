@@ -1,18 +1,14 @@
 # TODO
-# сделать прогу которая ходит по папкам и смотрит чтобы
-# 1) в папке не было больше 5 файлов заархивированной базы
-# 2) проверяет наличие свободного места и пишет письмо, если место кончается
-# 3) закрывала процессы winrar в памяти
+# программа, которая:
+# 0) закрывает процессы winrar, который делает архивы 1с, в памяти
+# 1) следит, чтобы в папке не было больше quantity_files_in_dir файлов заархивированной базы 1с
+# 2) проверяет наличие свободного места
+# 3) пишет письмо после каждого запуска - статистика действий и свободное место на диске
 # План:
-# 1) сделать функцию поиска папки с файлами
-# 2) если в папке только файлы, то какие:
-# 3) если размеры архивов примерно одинаковы И расширения одинаковы И начало названий файлов одинаковые,
-#     то оставить последние 5 по дате
-#     иначе удалить
-# 4) проверить место на диске из папки root_dir_with_files
+# ...
 # 5) отправить письмо на ящик с инфой
-#     а) сколько места на диске
-#     б) логи после удаления
+#     а) логи после удаления
+#     б) сколько места на диске
 
 import os
 import time
@@ -20,6 +16,10 @@ import datetime
 import shutil
 import psutil
 import math
+import smtplib
+import email.utils
+import msc #импорт переменных msc_mail_server, msc_login_user, msc_login_pass,
+                            # msc_from_address, msc_to_address, msc_msg_subject
 
 # переменная для удаления
 flag_del = False
@@ -70,7 +70,32 @@ def kill_proc_winrar():
 # отправка статистики работы
 def send_email_stattistics():
     # TODO
-    pass
+
+    exit()
+
+    msg_post = 'eMail was sended by python 3'
+
+    msc_msg = '\r\n'.join((
+        f'MIME-Version: 1.0',
+        f'Content-Type: text/html; charset=utf-8',
+        f'Date: {email.utils.formatdate(localtime=True)}',
+        f'From: {msc_from_address}',
+        f'To: {msc_to_address}',
+        f'Subject: {msc_msg_subject}',
+        f'',
+        f'{msg_post}'
+    ))
+
+    print('-' * 30)
+    print(msc.msc_msg)
+    print('-' * 30)
+
+    smtp_link = smtplib.SMTP_SSL(msc.msc_mail_server)
+    smtp_link.login(msc.msc_login_user, msc.msc_login_pass)
+    smtp_link.sendmail(msc.msc_from_address, msc.msc_to_address, msc.msc_msg)
+    smtp_link.quit()
+
+    print('mail sended')
 
 
 # подсчёт самого длинного названия файла
