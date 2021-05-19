@@ -69,7 +69,7 @@ def kill_proc_winrar():
 
 
 # отправка статистики работы
-def send_email_stattistics():
+def send_email_statistics():
     # TODO
 
     exit()
@@ -191,7 +191,7 @@ def del_arc_files(folder_value):
                         try:
                             if flag_del:
                                 os.remove(file_data[1])
-                                count_del_big_files += 1
+                                # count_del_big_files += 1
                             print(' ______________ удалён')
                         except PermissionError as errorPE:
                             print(' '*4 + '_'*50 +
@@ -210,7 +210,8 @@ if __name__ == '__main__':
 
     del_arc_files(root_dir_with_files)  # ищу и удаляю "мелкие файлы"
 
-    send_email_stattistics()
+    # send_email_statistics()
 
     print()
-    print(f'закрыты все процессы winrar, свободно места на диске с архивами = {free_space_disk(root_dir_with_files)} ... и статистика на почту отправлена')
+    print(f'закрыты все процессы winrar, свободно места на диске с архивами = {free_space_disk(root_dir_with_files)}'
+          f' ... и статистика на почту отправлена')
