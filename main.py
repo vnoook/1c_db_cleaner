@@ -210,7 +210,7 @@ if __name__ == '__main__':
 
     del_arc_files(root_dir_with_files)  # ищу и удаляю "мелкие файлы"
 
-    # send_email_statistics()
+    send_email_statistics()
 
     print()
     print(f'закрыты все процессы winrar, свободно места на диске с архивами = {free_space_disk(root_dir_with_files)}'
