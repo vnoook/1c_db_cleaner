@@ -81,29 +81,46 @@ def send_email_statistics():
     #     f'',
     #     f'{msg_post}'
 
+    # msg.as_string()
+    # msg.get_body()
+    # msg.get_content()
+    # msg.preamble()
+    # msg.policy
+
     msg = email.message.EmailMessage()
 
-    msg.as_string()
-    msg.get_body()
-    msg.get_content()
-    msg.preamble()
-    msg.policy
+    # msg['MIME-Version'] = '1.0'
+    # msg['Content-Type'] = 'text/plain; charset=utf-8'  # 'text/html; charset=utf-8'
 
-    print(*dir(msg), sep='\n')
+    # msg['Date'] = email.utils.formatdate(localtime=True)
+    msg['Date'] = 'Thu, 20 May 2021 08:10:52 +0700'
+
+    # msg['Sender'] = 'Sender111'
+    # msg['Reply-To'] = 'Reply-To111'
+    # msg['Received'] = 'Received111'
+    # msg['Comments'] = 'Comments111'
+    # msg['Keywords'] = 'Keywords111'
+
+    msg['Subject'] = msc.msc_msg_subject
+    msg['From'] = msc.msc_from_address
+    msg['To'] = msc.msc_to_address
+
+    msg['Body'] = 'msg_post msg_post msg_post msg_post msg_post msg_post ' \
+                  'msg_post ' \
+                  'msg_post ' \
+                  'msg_post ' \
+                  'msg_post msg_post msg_post msg_post msg_post msg_post ' \
+                  'msg_post msg_post msg_post ' \
+                  'msg_post msg_post ' \
+                  'msg_post ' \
+                  'msg_post msg_post ' \
+                  'msg_post msg_post msg_post '
+    print()
+    print(msg_post)
+    print(type(msg_post))
+    print(dir(msg_post))
+    print()
     exit()
-
-    msg['MIME-Version'] = '1.0'
-    msg['Content-Type'] = 'text/html; charset=utf-8'
-    msg['Date'] = email.utils.formatdate(localtime=True)
-    msg['Sender'] = 'Sender'
-    msg['Reply-To'] = 'Reply-To'
-    msg['Comments'] = 'Comments'
-    msg['Keywords'] = 'Keywords'
-    msg['Subject'] = f'Subject: {msc.msc_msg_subject}'
-    msg['From'] = f'From: {msc.msc_from_address}'
-    msg['To'] = f'To: {msc.msc_to_address}'
-    msg['Body'] = msg_post
-
 
     smtp_link = smtplib.SMTP_SSL(msc.msc_mail_server)
     smtp_link.login(msc.msc_login_user, msc.msc_login_pass)
