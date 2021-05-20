@@ -9,6 +9,8 @@
 # 5) отправить письмо на ящик с инфой
 #     а) логи после удаления
 #     б) сколько места на диске
+# INSTALL
+# pip install psutil
 
 import os
 import datetime
@@ -83,6 +85,7 @@ def send_email_statistics():
     smtp_link.login(msc.msc_login_user, msc.msc_login_pass)
     smtp_link.sendmail(msc.msc_from_address, msc.msc_to_address, msc.msc_msg)
     smtp_link.quit()
+    print()
     print('eMail was sended')
 
 
