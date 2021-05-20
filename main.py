@@ -20,8 +20,7 @@ import math
 import smtplib
 import email.message
 import email.utils
-import msc  #  импорт переменных msc_mail_server, msc_login_user, msc_login_pass,
-#                                msc_from_address, msc_to_address, msc_msg_subject
+import msc  # msc_mail_server, msc_login_user, msc_login_pass,msc_from_address, msc_to_address, msc_msg_subject
 
 # переменная для удаления
 flag_del = False
@@ -40,6 +39,7 @@ min_size = 10485760  # 10 Mb
 
 # список формирования данных для письма
 info_message_events = []
+
 
 # функция не моя, взял с инета
 # читаемый вид из байтов в человеческий вид
@@ -185,7 +185,8 @@ def del_arc_files(folder_value):
                 for file_data in list_sort_big_files:
                     if list_sort_big_files.index(file_data) >= quantity_files_in_dir:
                         print(f'   удаляю файл {file_data[1]} с датой {human_read_date(file_data[0])}', end='')
-                        info_message_events.append(f'   удаляю файл {file_data[1]} с датой {human_read_date(file_data[0])}')
+                        info_message_events.append(f'   удаляю файл {file_data[1]}'
+                                                   f' с датой {human_read_date(file_data[0])}')
 
                         try:
                             if flag_del:
@@ -200,16 +201,20 @@ def del_arc_files(folder_value):
 
                     else:
                         print(f'   оставляю файл {file_data[1]} с датой {human_read_date(file_data[0])}')
-                        info_message_events.append(f'   оставляю файл {file_data[1]} с датой {human_read_date(file_data[0])}')
+                        info_message_events.append(f'   оставляю файл {file_data[1]}'
+                                                   f' с датой {human_read_date(file_data[0])}')
 
 
 # новая модная фича как запускать прогу
 if __name__ == '__main__':
-    kill_proc_winrar()  #  удаляю зависшие процессы winrar
+    kill_proc_winrar()  # удаляю зависшие процессы winrar
 
-    del_arc_files(root_dir_with_files)  #  ищу и удаляю "мелкие файлы"
+    del_arc_files(root_dir_with_files)  # ищу и удаляю "мелкие файлы"
 
-    send_email_statistics()  #  отправляется статистика работы
+    # print('*'*150)
+    # print(*info_message_events, sep='\n')
+    # print('*' * 150)
+    send_email_statistics()  # отправляется статистика работы
 
     print()
     print(f'закрыты все процессы winrar, свободно места на диске с архивами = {free_space_disk(root_dir_with_files)}'
