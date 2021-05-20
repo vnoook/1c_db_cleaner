@@ -38,6 +38,8 @@ extension_list = ('.rar', '.zip', '.dt', '.7z')
 # размер файла в байтах "минимального размера"
 min_size = 10485760  # 10 Mb
 
+# список формирования данных для письма
+info_message_events = []
 
 # функция не моя, взял с инета
 # читаемый вид из байтов в человеческий вид
@@ -69,7 +71,10 @@ def kill_proc_winrar():
 # отправка статистики работы
 def send_email_statistics():
     # TODO
-    msg_post = 'eMail was sended by Python 3\r\n'
+
+    info_message_events.append('eMail was sended by Python 3\r\n')
+
+    msg_post = '\r\n'.join(*info_message_events)
 
     msc.msc_msg = '\r\n'.join((
         f'MIME-Version: 1.0',
@@ -134,6 +139,8 @@ def del_arc_files(folder_value):
         if flag_exist_ext:
             print()
             print(folders)
+            info_message_events.append('***')
+            info_message_events.append(folders)
 
             # поиск фалов малой длины и удаление их
             for file in files:
@@ -177,6 +184,7 @@ def del_arc_files(folder_value):
                 for file_data in list_sort_big_files:
                     if list_sort_big_files.index(file_data) >= quantity_files_in_dir:
                         print(f'   удаляю файл {file_data[1]} с датой {human_read_date(file_data[0])}', end='')
+                        info_message_events.append(f'   удаляю файл {file_data[1]} с датой {human_read_date(file_data[0])}')
 
                         try:
                             if flag_del:
@@ -192,6 +200,7 @@ def del_arc_files(folder_value):
 
                     else:
                         print(f'   оставляю файл {file_data[1]} с датой {human_read_date(file_data[0])}')
+                        info_message_events.append(f'   оставляю файл {file_data[1]} с датой {human_read_date(file_data[0])}')
 
 
 # новая модная фича как запускать прогу
