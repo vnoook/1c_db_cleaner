@@ -77,48 +77,39 @@ def send_email_statistics():
 
     msg_post = '\r\n'.join(info_message_events)
 
-    # msc.msc_msg = '\r\n'.join(( ))
-    #     f'',
-    #     f'{msg_post}'
-
-    # msg.as_string()
-    # msg.get_body()
-    # msg.get_content()
-    # msg.preamble()
-    # msg.policy
+    # set_boundary
+    # set_charset
+    # set_content
+    # set_default_type
+    # set_param
+    # set_payload
+    # set_raw
+    # set_type
+    # set_unixfrom
 
     msg = email.message.EmailMessage()
 
     # msg['MIME-Version'] = '1.0'
     # msg['Content-Type'] = 'text/plain; charset=utf-8'  # 'text/html; charset=utf-8'
-
-    # msg['Date'] = email.utils.formatdate(localtime=True)
-    msg['Date'] = 'Thu, 20 May 2021 08:10:52 +0700'
-
     # msg['Sender'] = 'Sender111'
     # msg['Reply-To'] = 'Reply-To111'
     # msg['Received'] = 'Received111'
     # msg['Comments'] = 'Comments111'
     # msg['Keywords'] = 'Keywords111'
+    msg.set_type('text/plain; charset=utf-8')
+
+    msg['Date'] = email.utils.formatdate(localtime=True)
+
 
     msg['Subject'] = msc.msc_msg_subject
     msg['From'] = msc.msc_from_address
     msg['To'] = msc.msc_to_address
 
-    msg['Body'] = 'msg_post msg_post msg_post msg_post msg_post msg_post ' \
-                  'msg_post ' \
-                  'msg_post ' \
-                  'msg_post ' \
-                  'msg_post msg_post msg_post msg_post msg_post msg_post ' \
-                  'msg_post msg_post msg_post ' \
-                  'msg_post msg_post ' \
-                  'msg_post ' \
-                  'msg_post msg_post ' \
-                  'msg_post msg_post msg_post '
+    msg.set_content(msg_post)
+    # msg['Body'] = 'msg_post msg_post msg_post msg_post msg_post msg_post msg_post msg_post msg_post'
+
     print()
-    print(msg_post)
-    print(type(msg_post))
-    print(dir(msg_post))
+    print(msg.values())
     print()
     exit()
 
