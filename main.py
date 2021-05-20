@@ -77,21 +77,32 @@ def send_email_statistics():
 
     msg_post = '\r\n'.join(info_message_events)
 
-    # msc.msc_msg = '\r\n'.join((
-    #     f'MIME-Version: 1.0',
-    #     f'Content-Type: text/html; charset=utf-8',
-    #     f'Date: {email.utils.formatdate(localtime=True)}',
-    #     f'From: {msc.msc_from_address}',
-    #     f'To: {msc.msc_to_address}',
-    #     f'Subject: {msc.msc_msg_subject}',
+    # msc.msc_msg = '\r\n'.join(( ))
     #     f'',
     #     f'{msg_post}'
-    # ))
 
     msg = email.message.EmailMessage()
+
+    msg.as_string()
+    msg.get_body()
+    msg.get_content()
+    msg.preamble()
+    msg.policy
+
+    print(*dir(msg), sep='\n')
+    exit()
+
+    msg['MIME-Version'] = '1.0'
+    msg['Content-Type'] = 'text/html; charset=utf-8'
+    msg['Date'] = email.utils.formatdate(localtime=True)
+    msg['Sender'] = 'Sender'
+    msg['Reply-To'] = 'Reply-To'
+    msg['Comments'] = 'Comments'
+    msg['Keywords'] = 'Keywords'
     msg['Subject'] = f'Subject: {msc.msc_msg_subject}'
     msg['From'] = f'From: {msc.msc_from_address}'
     msg['To'] = f'To: {msc.msc_to_address}'
+    msg['Body'] = msg_post
 
 
     smtp_link = smtplib.SMTP_SSL(msc.msc_mail_server)
