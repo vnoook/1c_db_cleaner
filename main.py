@@ -18,10 +18,10 @@ import shutil
 import psutil
 import math
 import smtplib
+import email.message
 import email.utils
-import msc  # импорт переменных msc_mail_server, msc_login_user, msc_login_pass,
-#                               msc_from_address, msc_to_address, msc_msg_subject
-
+import msc  #  импорт переменных msc_mail_server, msc_login_user, msc_login_pass,
+#                                msc_from_address, msc_to_address, msc_msg_subject
 
 # переменная для удаления
 flag_del = False
@@ -70,11 +70,12 @@ def kill_proc_winrar():
 
 # отправка статистики работы
 def send_email_statistics():
-    # TODO
+    info_message_events.append('***')
+    info_message_events.append(f'закрыты все процессы winrar\r\n')
+    info_message_events.append(f'свободно места на диске с архивами = {free_space_disk(root_dir_with_files)}\r\n')
+    info_message_events.append('eMail was sended by Python 3')
 
-    info_message_events.append('eMail was sended by Python 3\r\n')
-
-    msg_post = '\r\n'.join(*info_message_events)
+    msg_post = '\r\n'.join(info_message_events)
 
     msc.msc_msg = '\r\n'.join((
         f'MIME-Version: 1.0',
@@ -189,7 +190,6 @@ def del_arc_files(folder_value):
                         try:
                             if flag_del:
                                 os.remove(file_data[1])
-                                # count_del_big_files += 1
                             print(' ______________ удалён')
                         except PermissionError as errorPE:
                             print(' '*4 + '_'*50 +
@@ -205,11 +205,11 @@ def del_arc_files(folder_value):
 
 # новая модная фича как запускать прогу
 if __name__ == '__main__':
-    kill_proc_winrar()  # удаляю зависшие процессы winrar
+    kill_proc_winrar()  #  удаляю зависшие процессы winrar
 
-    del_arc_files(root_dir_with_files)  # ищу и удаляю "мелкие файлы"
+    del_arc_files(root_dir_with_files)  #  ищу и удаляю "мелкие файлы"
 
-    send_email_statistics()
+    send_email_statistics()  #  отправляется статистика работы
 
     print()
     print(f'закрыты все процессы winrar, свободно места на диске с архивами = {free_space_disk(root_dir_with_files)}'
