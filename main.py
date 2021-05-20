@@ -88,6 +88,10 @@ def send_email_statistics():
     #     f'{msg_post}'
     # ))
 
+    msg = email.message.EmailMessage()
+    msg['Subject'] = f'Subject: {msc.msc_msg_subject}'
+    msg['From'] = f'From: {msc.msc_from_address}'
+    msg['To'] = f'To: {msc.msc_to_address}'
 
 
     smtp_link = smtplib.SMTP_SSL(msc.msc_mail_server)
