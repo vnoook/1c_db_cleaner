@@ -232,16 +232,13 @@ def del_arc_files(folder_value):
                                                    f' с датой {human_read_date(file_data[0])}')
 
 
-# новая модная фича как запускать прогу
 if __name__ == '__main__':
     kill_proc_winrar()  # удаляю зависшие процессы winrar
-
     del_arc_files(root_dir_with_files)  # ищу и удаляю "мелкие файлы"
 
     # print('*'*150)
     # print(*info_message_events, sep='\n')
     # print('*' * 150)
-
     # send_email_statistics()  # отправляется статистика работы
 
     print()
