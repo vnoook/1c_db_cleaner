@@ -9,6 +9,7 @@
 # 5) отправить письмо на ящик с инфой
 #     а) логи после удаления
 #     б) сколько места на диске
+# ...
 # INSTALL
 # pip install psutil
 
@@ -240,7 +241,8 @@ if __name__ == '__main__':
     # print('*'*150)
     # print(*info_message_events, sep='\n')
     # print('*' * 150)
-    send_email_statistics()  # отправляется статистика работы
+
+    # send_email_statistics()  # отправляется статистика работы
 
     print()
     print(f'закрыты все процессы winrar, свободно места на диске с архивами = {free_space_disk(root_dir_with_files)}'
