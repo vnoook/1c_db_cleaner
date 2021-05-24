@@ -19,9 +19,8 @@ import shutil
 import psutil
 import math
 import smtplib
-import email.message
-import email.utils
-import msc  # msc_mail_server, msc_login_user, msc_login_pass,msc_from_address, msc_to_address, msc_msg_subject
+import email
+import msc
 
 # переменная для удаления
 flag_del = False
@@ -76,21 +75,27 @@ def send_email_statistics():
     info_message_events.append(f'свободно места на диске с архивами = {free_space_disk(root_dir_with_files)}\r\n')
     info_message_events.append('eMail was sended by Python 3')
 
-    msg_post = '\r\n'.join(info_message_events)
+    # список соединённый в текст
+    msg_body = '\r\n'.join(info_message_events)
 
+    # создание объекта "сообщение"
     msg = email.message.EmailMessage()
+
+    # создание заголовков
+    msg.set_content('some text')  # ????????????
     msg.set_type('text/plain; charset=utf-8')
     msg['Date'] = email.utils.formatdate(localtime=True)
     msg['Subject'] = msc.msc_msg_subject
     msg['From'] = msc.msc_from_address
     msg['To'] = msc.msc_to_address
-    msg.set_content(msg_post)
-    # msg['Body'] = 'msg_post msg_post msg_post msg_post msg_post msg_post msg_post msg_post msg_post'
+    msg.set_payload(msg_body.encode())
 
+    # отправка письма
     smtp_link = smtplib.SMTP_SSL(msc.msc_mail_server)
     smtp_link.login(msc.msc_login_user, msc.msc_login_pass)
-    smtp_link.sendmail(msc.msc_from_address, msc.msc_to_address, msc.msc_msg)
+    smtp_link.send_message(msg, msc.msc_from_address, msc.msc_to_address)
     smtp_link.quit()
+
     print()
     print('eMail was sended')
 
@@ -212,7 +217,7 @@ if __name__ == '__main__':
     # print('*'*150)
     # print(*info_message_events, sep='\n')
     # print('*' * 150)
-    # send_email_statistics()  # отправляется статистика работы
+    send_email_statistics()  # отправляется статистика работы
 
     print()
     print(f'закрыты все процессы winrar, свободно места на диске с архивами = {free_space_disk(root_dir_with_files)}'
