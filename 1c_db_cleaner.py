@@ -20,13 +20,14 @@ import psutil
 import math
 import smtplib
 import email
+import email.utils
 import msc
 
 # переменная для удаления
 flag_del = False
 
 # папка для поиска
-root_dir_with_files = r'd:\temp\exp1'
+root_dir_with_files = r'd:\tmp'
 
 # количество баз в папке
 quantity_files_in_dir = 5
@@ -97,7 +98,7 @@ def send_email_statistics():
     smtp_link.quit()
 
     print()
-    print('eMail was sended')
+    print('eMail sent')
 
 
 # подсчёт самого длинного названия файла
