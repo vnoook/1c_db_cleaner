@@ -68,14 +68,14 @@ def send_email_statistics():
     info_message_events.append(f'свободно места на диске с архивами = {free_space_disk(root_dir_with_files)}\r\n')
     info_message_events.append('eMail sent by Python 3')
 
-    # список соединённый в текст
+    # список соединённый в текст для формирования тела письма
     msg_body = '\r\n'.join(info_message_events)
 
     # создание объекта "сообщение"
     msg = email.message.EmailMessage()
 
-    # создание заголовков
-    msg.set_content('some text')  # ????????????
+    # создание заголовков в письме
+    msg.set_content('some text')  # ???????????????????????????????????????????????????????????????????????????
     msg.set_type('text/plain; charset=utf-8')
     msg['Date'] = email.utils.formatdate(localtime=True)
     msg['Subject'] = msc.msc_msg_subject
@@ -93,7 +93,7 @@ def send_email_statistics():
     print('eMail sent')
 
 
-# подсчёт самого длинного названия файла
+# подсчёт самого длинного названия файла в папке для ровного отображения в консоли
 def count_max_name_files(files_value):
     max_name_file = 0
     for file in files_value:
@@ -115,12 +115,13 @@ def del_arc_files(folder_value):
         # смена текущей папки для поиска файла
         os.chdir(folders)
 
-        # поиск самого длинного имени в папке
+        # поиск самого длинного имени в папке для ровного отображения в консоли
         max_space = count_max_name_files(files)
 
-        # количество файлов из extension_list и удалённых файлов
+        # количество файлов из extension_list
         count_arc_files = 0
-        count_del_files = 0
+        # количество удалённых файлов
+        count_del_files = 0  # ??????????????????????????????????????????????????????????????????????????????????
 
         # список для файлов больше минимального размера
         list_big_files = []
