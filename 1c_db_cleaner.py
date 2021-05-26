@@ -16,16 +16,16 @@ import email
 import email.utils
 import msc
 
-# переменная для удаления
+# переменная удаления файлов, True удаляет файлы физически
 flag_del = False
 
-# папка для поиска
+# папка для поиска папок с архивами
 root_dir_with_files = r'd:\tmp'
 
-# количество баз в папке
+# количество архивов одного экземляра базы в папке
 quantity_files_in_dir = 5
 
-# расширения файлов для поиска
+# расширения файлов для поиска в папке
 extension_list = ('.rar', '.zip', '.dt', '.7z')
 
 # размер файла в байтах "минимального размера"
@@ -35,7 +35,6 @@ min_size = 10485760  # 10 Mb
 info_message_events = []
 
 
-# функция не моя, взял с инета
 # читаемый вид из байтов в человеческий вид
 def human_read_format(size_file):
     size_file_human_format = 0
@@ -54,7 +53,7 @@ def human_read_date(date_file):
     return date_file_human_format
 
 
-# для удаления процессов winrar в памяти
+# удаляет процессы winrar в памяти
 def kill_proc_winrar():
     process_winrar = 'winrar.exe'
     for process in psutil.process_iter():
@@ -62,7 +61,7 @@ def kill_proc_winrar():
             process.kill()
 
 
-# отправка статистики работы
+# отправка на почту статистики запуска
 def send_email_statistics():
     info_message_events.append('***')
     info_message_events.append(f'закрыты все процессы winrar\r\n')
