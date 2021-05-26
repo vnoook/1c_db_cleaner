@@ -120,8 +120,6 @@ def del_arc_files(folder_value):
 
         # количество файлов из extension_list
         count_arc_files = 0
-        # количество удалённых файлов
-        count_del_files = 0  # ??????????????????????????????????????????????????????????????????????????????????
 
         # список для файлов больше минимального размера
         list_big_files = []
@@ -160,7 +158,6 @@ def del_arc_files(folder_value):
                         try:
                             if flag_del:
                                 os.remove(file)
-                                count_del_files += 1
                             print(' ______________ удалён')
                         except PermissionError as errorPE:
                             print(' '*4 + '_'*50 +
@@ -207,12 +204,9 @@ def del_arc_files(folder_value):
 if __name__ == '__main__':
     kill_proc_winrar()  # удаляю зависшие процессы winrar
     del_arc_files(root_dir_with_files)  # ищу и удаляю "мелкие файлы"
-
-    # print('*'*150)
-    # print(*info_message_events, sep='\n')
-    # print('*' * 150)
     send_email_statistics()  # отправляется статистика работы
 
     print()
-    print(f'закрыты все процессы winrar, свободно места на диске с архивами = {free_space_disk(root_dir_with_files)}'
-          f' ... и статистика на почту отправлена')
+    print(f'закрыты все процессы winrar,'
+          f' свободно места на диске с архивами = {free_space_disk(root_dir_with_files)}'
+          f' статистика на почту {msc.msc_to_address} отправлена')
