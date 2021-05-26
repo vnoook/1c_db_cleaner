@@ -67,7 +67,7 @@ def send_email_statistics():
     info_message_events.append('***')
     info_message_events.append(f'закрыты все процессы winrar\r\n')
     info_message_events.append(f'свободно места на диске с архивами = {free_space_disk(root_dir_with_files)}\r\n')
-    info_message_events.append('eMail was sended by Python 3')
+    info_message_events.append('eMail sent by Python 3')
 
     # список соединённый в текст
     msg_body = '\r\n'.join(info_message_events)
