@@ -63,10 +63,9 @@ def kill_proc_winrar():
 
 # отправка на почту статистики запуска
 def send_email_statistics():
-    info_message_events.append('***')
-    info_message_events.append(f'закрыты все процессы winrar\r\n')
-    info_message_events.append(f'свободно места на диске с архивами = {free_space_disk(root_dir_with_files)}\r\n')
-    info_message_events.append('eMail sent by Python 3')
+    # вставляю техническую инфу для информативности письма вверх
+    info_message_events.insert(0, '***')
+    info_message_events.insert(1, f'закрыты все процессы winrar, свободно места на диске с архивами = {free_space_disk(root_dir_with_files)}')
 
     # список соединённый в текст для формирования тела письма
     msg_body = '\r\n'.join(info_message_events)
