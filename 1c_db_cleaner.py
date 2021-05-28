@@ -132,7 +132,7 @@ def del_arc_files(folder_value):
             i_files_in_dir += 1
 
         # если файлы из extension_list есть в папке, то ищутся файлы малой длины и удаляются
-        # потому что они создаются в момент блокировки архиватором открытой базы, но "пустые"
+        # потому что они создаются архиватором в момент блокировки открытой базы, но "пустые"
         if flag_exist_ext:
             print()
             print(folders)
@@ -172,7 +172,7 @@ def del_arc_files(folder_value):
                                                ])
                     else:
                         print(' '*4, '--- надо подумать')
-
+#
             # если осталось больше, чем quantity_files_in_dir, то продолжаю их обрабатывать
             if len(list_big_files) > quantity_files_in_dir:
                 list_sort_big_files = sorted(list_big_files, key=lambda size_big_file: size_big_file[0], reverse=True)
@@ -198,7 +198,7 @@ def del_arc_files(folder_value):
                         print(f'   оставляю файл {file_data[1]} с датой {human_read_date(file_data[0])}')
                         info_message_events.append(f'   оставляю файл {file_data[1]}'
                                                    f' с датой {human_read_date(file_data[0])}')
-
+#
 
 if __name__ == '__main__':
     kill_proc_winrar()  # удаляю зависшие процессы winrar
