@@ -65,7 +65,8 @@ def kill_proc_winrar():
 def send_email_statistics():
     # вставляю техническую инфу для информативности письма вверх
     info_message_events.insert(0, '***')
-    info_message_events.insert(1, f'закрыты все процессы winrar, свободно места на диске с архивами = {free_space_disk(root_dir_with_files)}')
+    info_message_events.insert(1, f'закрыты все процессы winrar, свободно места на диске с архивами ='
+                                  f' {free_space_disk(root_dir_with_files)}')
 
     # список соединённый в текст для формирования тела письма
     msg_body = '\r\n'.join(info_message_events)
@@ -170,7 +171,7 @@ def del_arc_files(folder_value):
                                                ])
                     else:
                         print(' '*4, '--- надо подумать')
-#
+
             # если осталось больше, чем quantity_files_in_dir, то продолжаю их обрабатывать
             if len(list_big_files) > quantity_files_in_dir:
                 info_message_events.append('***')
@@ -199,7 +200,6 @@ def del_arc_files(folder_value):
                         print(f'   оставляю файл {file_data[1]} с датой {human_read_date(file_data[0])}')
                         info_message_events.append(f'   оставляю файл {file_data[1]}'
                                                    f' с датой {human_read_date(file_data[0])}')
-#
 
 if __name__ == '__main__':
     kill_proc_winrar()  # удаляю зависшие процессы winrar
