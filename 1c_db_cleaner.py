@@ -137,7 +137,6 @@ def del_arc_files(folder_value):
             print()
             print(folders)
             info_message_events.append('***')
-            info_message_events.append(folders)
 
             # поиск фалов малой длины и удаление их
             for file in files:
@@ -175,6 +174,8 @@ def del_arc_files(folder_value):
 #
             # если осталось больше, чем quantity_files_in_dir, то продолжаю их обрабатывать
             if len(list_big_files) > quantity_files_in_dir:
+                info_message_events.append(folders)
+
                 list_sort_big_files = sorted(list_big_files, key=lambda size_big_file: size_big_file[0], reverse=True)
 
                 for file_data in list_sort_big_files:
