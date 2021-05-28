@@ -201,6 +201,7 @@ def del_arc_files(folder_value):
                         info_message_events.append(f'   оставляю файл {file_data[1]}'
                                                    f' с датой {human_read_date(file_data[0])}')
 
+
 if __name__ == '__main__':
 
     kill_proc_winrar()  # удаляю зависшие процессы winrar
