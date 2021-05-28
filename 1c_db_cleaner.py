@@ -1,10 +1,20 @@
-# программа:
-# 1) закрывает процессы winrar в памяти, winrar делает архивы 1с и складывают по папкам
-# 2) следит, чтобы в папке не было больше quantity_files_in_dir файлов заархивированной базы 1с и удаляет лишние
+# скрипт:
+# 1) закрывает процессы winrar в памяти (winrar предварительно делает архивы 1с и раскладывают их по папкам)
+# 2) следит чтобы в папке не было больше quantity_files_in_dir файлов заархивированной базы 1с и удаляет старые по дате
 # 3) пишет письмо после каждого исполнения - статистика действий и свободное место на диске
+# ...
+# во "соседнем" файле msc.py должны храниться следующие переменные с настоящими значениями
+# msc_mail_server = 'smtp.xxx.ru'
+# msc_from_address = 'server_mail@xxx.ru'
+# msc_login_user = 'server_mail'
+# msc_login_pass = 'server_pass'
+# msc_to_address = 'admin_mail@yyy.ru'
+# msc_msg_subject = 'subject mail and statistic'
+# msc_msg = ''
 # ...
 # INSTALL
 # pip install psutil
+# ...
 
 import os
 import datetime
