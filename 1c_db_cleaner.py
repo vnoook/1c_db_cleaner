@@ -1,9 +1,9 @@
 # скрипт:
 # 1) закрывает процессы winrar в памяти (winrar предварительно делает архивы 1с и раскладывают их по папкам)
-# 2) следит чтобы в папке не было больше quantity_files_in_dir файлов заархивированной базы 1с и удаляет старые по дате
+# 2) следит чтобы в папке не было больше quantity_files_in_dir файлов архивных баз 1с и удаляет старые по дате
 # 3) пишет письмо после каждого исполнения - статистика действий и свободное место на диске
 # ...
-# во "соседнем" файле msc.py должны храниться следующие переменные с настоящими значениями
+# в "соседнем" файле msc.py должны храниться следующие переменные с настоящими значениями
 # msc_mail_server = 'smtp.xxx.ru'
 # msc_from_address = 'server_mail@xxx.ru'
 # msc_login_user = 'server_mail'
@@ -11,6 +11,8 @@
 # msc_to_address = 'admin_mail@yyy.ru'
 # msc_msg_subject = 'subject mail and statistic'
 # msc_msg = ''
+# msc_root_dir_with_files = r'real path for dir'
+# msc_quantity_files_in_dir = x
 # ...
 # INSTALL
 # pip install psutil
@@ -28,12 +30,6 @@ import msc
 
 # переменная удаления файлов, True удаляет файлы физически
 flag_del = False
-
-# папка для поиска папок с архивами
-root_dir_with_files = r'd:\tmp'
-
-# количество архивов одного экземляра базы в папке
-quantity_files_in_dir = 5
 
 # расширения файлов для поиска в папке
 extension_list = ('.rar', '.zip', '.dt', '.7z')
@@ -76,7 +72,7 @@ def send_email_statistics():
     # вставляю техническую инфу для информативности письма вверх
     info_message_events.insert(0, '***')
     info_message_events.insert(1, f'закрыты все процессы winrar, свободно места на диске с архивами ='
-                                  f' {free_space_disk(root_dir_with_files)}')
+                                  f' {free_space_disk(msc.msc_root_dir_with_files)}')
 
     # список соединённый в текст для формирования тела письма
     msg_body = '\r\n'.join(info_message_events)
@@ -183,18 +179,18 @@ def del_arc_files(folder_value):
                         print(' '*4, '--- надо подумать')
 
             # если осталось больше, чем quantity_files_in_dir, то продолжаю их обрабатывать
-            if len(list_big_files) > quantity_files_in_dir:
+            if len(list_big_files) > msc.msc_quantity_files_in_dir:
                 info_message_events.append('***')
                 info_message_events.append(folders)
 
                 list_sort_big_files = sorted(list_big_files, key=lambda size_big_file: size_big_file[0], reverse=True)
 
                 for file_data in list_sort_big_files:
-                    if list_sort_big_files.index(file_data) >= quantity_files_in_dir:
+                    if list_sort_big_files.index(file_data) >= msc.msc_quantity_files_in_dir:
                         print(f'   удаляю файл {file_data[1]} с датой {human_read_date(file_data[0])}', end='')
-                        info_message_events.append(f'   удаляю файл {file_data[1]}'
-                                                   f' с датой {human_read_date(file_data[0])}')
-
+                        info_message_events.append(f'      удаляю файл {os.path.basename(file_data[1])}'
+                                                   f' с датой {human_read_date(file_data[0])}'
+                                                   f' и размером {human_read_format(os.stat(file_data[1]).st_size)}')
                         try:
                             if flag_del:
                                 os.remove(file_data[1])
@@ -208,17 +204,18 @@ def del_arc_files(folder_value):
 
                     else:
                         print(f'   оставляю файл {file_data[1]} с датой {human_read_date(file_data[0])}')
-                        info_message_events.append(f'   оставляю файл {file_data[1]}'
-                                                   f' с датой {human_read_date(file_data[0])}')
+                        info_message_events.append(f'   оставляю файл {os.path.basename(file_data[1])}'
+                                                   f' с датой {human_read_date(file_data[0])}'
+                                                   f' и размером {human_read_format(os.stat(file_data[1]).st_size)}')
 
 
 if __name__ == '__main__':
 
     kill_proc_winrar()  # удаляю зависшие процессы winrar
-    del_arc_files(root_dir_with_files)  # ищу и удаляю "мелкие файлы"
+    del_arc_files(msc.msc_root_dir_with_files)  # ищу и удаляю "мелкие файлы"
     send_email_statistics()  # отправляется статистика работы
 
     print()
     print(f'закрыты все процессы winrar,'
-          f' свободно места на диске с архивами = {free_space_disk(root_dir_with_files)}'
+          f' свободно места на диске с архивами = {free_space_disk(msc.msc_root_dir_with_files)}'
           f' статистика на почту {msc.msc_to_address} отправлена')
