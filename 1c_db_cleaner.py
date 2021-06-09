@@ -131,7 +131,9 @@ def del_arc_files(folder_value):
         list_big_files = []
 
         # нужно ли выводить название папки или нет, если в папке нет файлов с расширением из extension_list
+        # флаг существования файлов с расширением из extension_list
         flag_exist_ext = False
+        # количество файлов в папке с расширением из extension_list
         i_files_in_dir = 0
         while not flag_exist_ext and i_files_in_dir < len(files):
             if os.path.splitext(files[i_files_in_dir])[1] in extension_list:
