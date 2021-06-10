@@ -4,7 +4,7 @@
 # скрипт:
 # 1) закрывает процессы winrar в памяти (winrar предварительно делает архивы 1с и раскладывают их по папкам)
 # 2) следит чтобы в папке не было больше quantity_files_in_dir файлов архивных баз 1с и удаляет старые по дате
-# 3) пишет письмо после каждого исполнения - статистика действий и свободное место на диске
+# 3) пишет письмо после каждого исполнения — статистика действий и свободное место на диске
 # ...
 # в "соседнем" файле msc.py должны храниться следующие переменные с настоящими значениями
 # msc_mail_server = 'smtp.xxx.ru'
@@ -33,6 +33,8 @@ import msc
 
 # переменная удаления файлов, True удаляет файлы физически
 flag_del = False
+# переменная отправки письма, True отправляет письмо
+flag_mail = False
 
 # расширения файлов для поиска в папке
 extension_list = ('.rar', '.zip', '.dt', '.7z')
@@ -178,10 +180,19 @@ def del_arc_files(folder_value):
                     elif os.stat(file).st_size > min_size:
                         print(' '*4, '--- файл больше минимума')
                         list_big_files.append([os.stat(os.path.join(folders, file)).st_mtime,
-                                               os.path.join(folders, file)
+                                               os.path.join(folders, file),
+                                               os.stat(os.path.join(folders, file)).st_size
                                                ])
                     else:
                         print(' '*4, '--- надо подумать')
+
+
+                # TODO
+                # тут нужно вставить блок со сравнением файлов на содержание
+                print()
+                print('*' * 50)
+                print(f'{list_big_files = }')
+                print()
 
             # если осталось больше, чем quantity_files_in_dir, то продолжаю их обрабатывать
             if len(list_big_files) > msc.msc_quantity_files_in_dir:
@@ -218,7 +229,8 @@ if __name__ == '__main__':
 
     kill_proc_winrar()  # удаляю зависшие процессы winrar
     del_arc_files(msc.msc_root_dir_with_files)  # ищу и удаляю "мелкие файлы"
-    send_email_statistics()  # отправляется статистика работы
+    if flag_mail:
+        send_email_statistics()  # отправляется статистика работы
 
     print()
     print(f'закрыты все процессы winrar,'
