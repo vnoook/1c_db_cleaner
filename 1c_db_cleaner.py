@@ -29,6 +29,7 @@ import math
 import smtplib
 import email
 import email.utils
+import filecmp
 import msc
 
 # переменная удаления файлов, True удаляет файлы физически
@@ -151,7 +152,7 @@ def del_arc_files(folder_value):
             print()
             print(folders)
 
-            # поиск файлов малой длины и удаление их
+            # поиск файлов малой длины и их удаление
             for file in files:
                 if os.path.splitext(file)[1] in extension_list:
                     count_arc_files += 1
@@ -192,7 +193,44 @@ def del_arc_files(folder_value):
                 print()
                 print('*' * 50)
                 print(f'{list_big_files = }')
+                print(list_big_files.sort())
+                print(*list_big_files, sep='\n')
                 print()
+                print(*list_big_files[::-1], sep='\n')
+                print()
+                if len(list_big_files) > 1:
+                    list_big_files = sorted(list_big_files, key=lambda nud: nud[2])
+                    # print(*list_big_files, sep='\n')
+                    # print()
+
+                    f_date = 0
+                    f_name = 0
+                    f_size = 0
+                    for file in list_big_files:
+                        if list_big_files.index(file) == 0:
+                            f_date = file[0]
+                            f_name = file[1]
+                            f_size = file[2]
+                            print('первый файл', f_date, f_size, f_name)
+                        else:
+                            print()
+                            # print(list_big_files.index(file), ' __________', f_date, f_size, f_name)
+                            if f_size == file[2]:
+                                print('сравниваю файлы')
+                                print('пред', f_date, f_size, f_name)
+                                print('след', file[0], file[2], file[1])
+                                flag_compare = filecmp.cmp(f_name, file[1], shallow=True)
+                                if flag_compare:
+                                    print('удаляю файл', file[1])
+                                else:
+                                    print('оставляю файл', file[1])
+                            else:
+                                pass
+                            f_date = file[0]
+                            f_name = file[1]
+                            f_size = file[2]
+                exit()
+
 
             # если осталось больше, чем quantity_files_in_dir, то продолжаю их обрабатывать
             if len(list_big_files) > msc.msc_quantity_files_in_dir:
