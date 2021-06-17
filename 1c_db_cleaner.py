@@ -157,10 +157,11 @@ def del_arc_files(folder_value):
                 if os.path.splitext(file)[1] in extension_list:
                     count_arc_files += 1
                     print(' '*3, file, '.'*(max_space - len(file)),
-                          '.. размер = ', human_read_format(os.stat(os.path.join(folders, file)).st_size),
-                          ' ... в байтах = ', os.stat(os.path.join(folders, file)).st_size,
-                          ' ... дата = ', os.stat(os.path.join(folders, file)).st_mtime,
-                          ' ... дата человеческая = ', human_read_date(os.stat(os.path.join(folders, file)).st_mtime),
+                          ' ... размер в байтах ', os.stat(os.path.join(folders, file)).st_size,
+                          ' .. ', human_read_format(os.stat(os.path.join(folders, file)).st_size),
+                          ' ... дата ', os.stat(os.path.join(folders, file)).st_mtime,
+                          ' .. ', human_read_date(os.stat(os.path.join(folders, file)).st_mtime),
+
                           end=' ', sep=''
                           )
 
@@ -179,7 +180,7 @@ def del_arc_files(folder_value):
                             print(' '*4+'_'*50 + f'Ошибка: файл не найден {errorFNFE.filename} - {errorFNFE.strerror}')
 
                     elif os.stat(file).st_size > min_size:
-                        print(' '*4, '--- файл больше минимума')
+                        print(' - файл больше минимума')
                         list_big_files.append([os.stat(os.path.join(folders, file)).st_mtime,
                                                os.path.join(folders, file),
                                                os.stat(os.path.join(folders, file)).st_size
