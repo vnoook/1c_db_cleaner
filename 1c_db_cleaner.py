@@ -33,9 +33,9 @@ import filecmp
 import msc
 
 # переменная удаления файлов, True удаляет файлы физически
-flag_del = False
+flag_del = True
 # переменная отправки письма, True отправляет письмо
-flag_mail = False
+flag_mail = True
 
 # расширения файлов для поиска в папке
 extension_list = ('.rar', '.zip', '.dt', '.7z')
@@ -188,28 +188,30 @@ def del_arc_files(folder_value):
                     else:
                         print(' '*4, '--- надо подумать')
 
-
-
-            # TODO
-            # тут нужно вставить блок со сравнением файлов на содержание
+            # поиск файлов одинаковых по содержанию и их удаление
             print()
             print('*' * 50)
+            # если в папке осталось больше одного файла, то можно начать сравнивать
             if len(list_big_files) > 1:
+                # сортировка списка файлов по размеру, потом по дате и потом по имени
                 list_big_files = sorted(list_big_files, key=lambda nud: (nud[2], nud[0], nud[1]))
                 print(*list_big_files, sep='\n')
                 print()
 
+                # переменные для сохранения предыдущего файла
                 f_date = 0
                 f_name = 0
                 f_size = 0
+
+                # берём каждый файл и сравниваем с предыдущим
                 for file in list_big_files:
+                    # сравнение начинается со второго файла
                     if list_big_files.index(file) == 0:
                         f_date = file[0]
                         f_name = file[1]
                         f_size = file[2]
-                        # print('первый файл', f_date, f_size, f_name)
                     else:
-                        # print(list_big_files.index(file), ' __________', f_date, f_size, f_name)
+                        # само сравнение файла на одинаковость содержимого
                         if f_size == file[2]:
                             print('сравниваю файлы')
                             print('пред', f_date, f_size, f_name)
@@ -217,7 +219,7 @@ def del_arc_files(folder_value):
                             flag_compare = 0
                             flag_compare = filecmp.cmp(f_name, file[1], shallow=True)
                             if flag_compare:
-                                print('удаляю', f_name, end=' ', sep='')
+                                print('удаляю файл ', f_name, end=' ', sep='')
                                 try:
                                     if flag_del:
                                         os.remove(f_name)
@@ -229,22 +231,10 @@ def del_arc_files(folder_value):
                                 except FileNotFoundError as errorFNFE:
                                     print(
                                         ' ' * 4 + '_' * 50 + f'Ошибка: файл не найден {errorFNFE.filename} - {errorFNFE.strerror}')
-                            else:
-                                print('оставляю', file[1])
                             print()
-                        else:
-                            pass
                         f_date = file[0]
                         f_name = file[1]
                         f_size = file[2]
-            # exit()
-
-
-
-
-
-
-
 
             # если осталось больше, чем quantity_files_in_dir, то продолжаю их обрабатывать
             if len(list_big_files) > msc.msc_quantity_files_in_dir:
