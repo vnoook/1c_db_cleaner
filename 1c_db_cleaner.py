@@ -216,8 +216,9 @@ def del_arc_files(folder_value):
                             print('сравниваю файлы')
                             print('пред', f_date, f_size, f_name)
                             print('след', file[0], file[2], file[1])
-                            flag_compare = 0
+                            flag_compare = 0  # обнуление флага сравнения файлов
                             flag_compare = filecmp.cmp(f_name, file[1], shallow=True)
+                            # если файлы одинковые, то удалить предыдущий
                             if flag_compare:
                                 print('удаляю файл ', f_name, end=' ', sep='')
                                 try:
@@ -232,6 +233,7 @@ def del_arc_files(folder_value):
                                     print(
                                         ' ' * 4 + '_' * 50 + f'Ошибка: файл не найден {errorFNFE.filename} - {errorFNFE.strerror}')
                             print()
+                        # переменные сохраняющие текущий файл в предыдущий
                         f_date = file[0]
                         f_name = file[1]
                         f_size = file[2]
