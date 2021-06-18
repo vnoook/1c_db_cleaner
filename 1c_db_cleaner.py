@@ -135,6 +135,8 @@ def del_arc_files(folder_value):
 
         # список для файлов больше минимального размера
         list_big_files = []
+        # список индексов для удаления после сравнения
+        list_for_index_del = []
 
         # нужно ли выводить название папки или нет, если в папке нет файлов с расширением из extension_list
         # флаг существования файлов с расширением из extension_list
@@ -152,6 +154,7 @@ def del_arc_files(folder_value):
             print()
             print(folders)
 
+            # МАЛАЯ ДЛИНА
             # поиск файлов малой длины и их удаление
             for file in files:
                 if os.path.splitext(file)[1] in extension_list:
@@ -185,9 +188,11 @@ def del_arc_files(folder_value):
                                                os.stat(os.path.join(folders, file)).st_size
                                                ])
 
+            # СРАВНЕНИЕ
             # поиск файлов одинаковых по содержанию и их удаление
             print()
             print('*' * 50)
+
             # если в папке осталось больше одного файла, то можно начать сравнивать
             if len(list_big_files) > 1:
                 # сортировка списка файлов по размеру, потом по дате и потом по имени
@@ -199,7 +204,6 @@ def del_arc_files(folder_value):
                 f_date = 0
                 f_name = 0
                 f_size = 0
-                list_for_index_del = []
 
                 # берём каждый файл и сравниваем с предыдущим
                 for file in list_big_files:
@@ -226,6 +230,7 @@ def del_arc_files(folder_value):
                                     if flag_del:
                                         # запоминаю индекс для последующего удаления из списка
                                         list_for_index_del.append(list_big_files.index(f_file))
+                                        print(*list_for_index_del)
                                         os.remove(f_name)
                                         print(' ______________ удалён')
                                 except PermissionError as errorPE:
@@ -245,12 +250,12 @@ def del_arc_files(folder_value):
 
 
 
-            print(*list_big_files, end=' ', sep='')
-            print(*list_for_index_del)
-            # for f_ind in list_for_index_del:
-            #     del list_big_files[list_big_files.index(f_ind)]
-            # print(*list_big_files, end=' ', sep='')
-            print(len(list_big_files))
+                print(*list_big_files, end=' ', sep='')
+                print(*list_for_index_del)
+                # for f_ind in list_for_index_del:
+                #     del list_big_files[list_big_files.index(f_ind)]
+                # print(*list_big_files, end=' ', sep='')
+                print(len(list_big_files))
 
 
 
