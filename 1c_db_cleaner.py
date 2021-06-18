@@ -199,16 +199,18 @@ def del_arc_files(folder_value):
                 f_date = 0
                 f_name = 0
                 f_size = 0
+                list_for_index_del = []
 
                 # берём каждый файл и сравниваем с предыдущим
                 for file in list_big_files:
-                    # сравнение начинается со второго файла
+                    # если первый индекс, то просто запоминаем
                     if list_big_files.index(file) == 0:
                         f_file = file
                         f_date = file[0]
                         f_name = file[1]
                         f_size = file[2]
                     else:
+                        # сравнение начинается со второго файла
                         # само сравнение файла на одинаковость содержимого
                         if f_size == file[2]:
                             print('сравниваю файлы')
@@ -222,21 +224,10 @@ def del_arc_files(folder_value):
                                 print('удаляю файл ', f_name, end=' ', sep='')
                                 try:
                                     if flag_del:
-
-
-                                        # TODO
-                                        # сделать тут удаление записи о файле из list_big_files
-                                        print()
-                                        print(f_file)
-                                        print(file)
-                                        # print(list_big_files.index(file))
-                                        print()
-                                        exit()
-
-
+                                        # запоминаю индекс для последующего удаления из списка
+                                        list_for_index_del.append(list_big_files.index(f_file))
                                         os.remove(f_name)
                                         print(' ______________ удалён')
-
                                 except PermissionError as errorPE:
                                     print(' ' * 4 + '_' * 50 +
                                           f'Ошибка: нет доступа для удаления файла {errorPE.filename} - {errorPE.strerror}'
@@ -250,6 +241,21 @@ def del_arc_files(folder_value):
                         f_date = file[0]
                         f_name = file[1]
                         f_size = file[2]
+
+
+
+
+            print(*list_big_files, end=' ', sep='')
+            print(*list_for_index_del)
+            # for f_ind in list_for_index_del:
+            #     del list_big_files[list_big_files.index(f_ind)]
+            # print(*list_big_files, end=' ', sep='')
+            print(len(list_big_files))
+
+
+
+
+
 
             # если осталось больше, чем quantity_files_in_dir, то продолжаю их обрабатывать
             if len(list_big_files) > msc.msc_quantity_files_in_dir:
