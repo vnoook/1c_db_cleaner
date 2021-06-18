@@ -35,7 +35,7 @@ import msc
 # переменная удаления файлов, True удаляет файлы физически
 flag_del = True
 # переменная отправки письма, True отправляет письмо
-flag_mail = True
+flag_mail = False
 
 # расширения файлов для поиска в папке
 extension_list = ('.rar', '.zip', '.dt', '.7z')
@@ -161,7 +161,6 @@ def del_arc_files(folder_value):
                           ' .. ', human_read_format(os.stat(os.path.join(folders, file)).st_size),
                           ' ... дата ', os.stat(os.path.join(folders, file)).st_mtime,
                           ' .. ', human_read_date(os.stat(os.path.join(folders, file)).st_mtime),
-
                           end=' ', sep=''
                           )
 
@@ -185,8 +184,6 @@ def del_arc_files(folder_value):
                                                os.path.join(folders, file),
                                                os.stat(os.path.join(folders, file)).st_size
                                                ])
-                    else:
-                        print(' '*4, '--- надо подумать')
 
             # поиск файлов одинаковых по содержанию и их удаление
             print()
@@ -207,6 +204,7 @@ def del_arc_files(folder_value):
                 for file in list_big_files:
                     # сравнение начинается со второго файла
                     if list_big_files.index(file) == 0:
+                        f_file = file
                         f_date = file[0]
                         f_name = file[1]
                         f_size = file[2]
@@ -218,15 +216,27 @@ def del_arc_files(folder_value):
                             print('след', file[0], file[2], file[1])
                             flag_compare = 0  # обнуление флага сравнения файлов
                             flag_compare = filecmp.cmp(f_name, file[1], shallow=True)
+
                             # если файлы одинковые, то удалить предыдущий
                             if flag_compare:
                                 print('удаляю файл ', f_name, end=' ', sep='')
                                 try:
                                     if flag_del:
-                                        os.remove(f_name)
+
+
                                         # TODO
                                         # сделать тут удаление записи о файле из list_big_files
-                                    print(' ______________ удалён')
+                                        print()
+                                        print(f_file)
+                                        print(file)
+                                        # print(list_big_files.index(file))
+                                        print()
+                                        exit()
+
+
+                                        os.remove(f_name)
+                                        print(' ______________ удалён')
+
                                 except PermissionError as errorPE:
                                     print(' ' * 4 + '_' * 50 +
                                           f'Ошибка: нет доступа для удаления файла {errorPE.filename} - {errorPE.strerror}'
@@ -236,6 +246,7 @@ def del_arc_files(folder_value):
                                         ' ' * 4 + '_' * 50 + f'Ошибка: файл не найден {errorFNFE.filename} - {errorFNFE.strerror}')
                             print()
                         # переменные сохраняющие текущий файл в предыдущий
+                        f_file = file
                         f_date = file[0]
                         f_name = file[1]
                         f_size = file[2]
