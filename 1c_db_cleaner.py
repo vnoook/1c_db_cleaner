@@ -35,7 +35,7 @@ import msc
 # переменная удаления файлов, True удаляет файлы физически
 flag_del = True
 # переменная отправки письма, True отправляет письмо
-flag_mail = False
+flag_mail = True
 
 # расширения файлов для поиска в папке
 extension_list = ('.rar', '.zip', '.dt', '.7z')
@@ -192,7 +192,6 @@ def del_arc_files(folder_value):
             # поиск файлов одинаковых по содержанию и их удаление
             print()
             print('*' * 50)
-
             # если в папке осталось больше одного файла, то можно начать сравнивать
             if len(list_big_files) > 1:
                 # сортировка списка файлов по размеру, потом по дате и потом по имени
@@ -226,20 +225,22 @@ def del_arc_files(folder_value):
                             # если файлы одинковые, то удалить предыдущий
                             if flag_compare:
                                 print('удаляю файл ', f_name, end=' ', sep='')
-                                try:
-                                    if flag_del:
-                                        # запоминаю индекс для последующего удаления из списка
-                                        list_for_index_del.append(list_big_files.index(f_file))
-                                        print(*list_for_index_del)
+
+                                # запоминаю индекс для последующего удаления из списка list_big_files
+                                list_for_index_del.append(list_big_files.index(f_file))
+                                # print(*list_for_index_del)
+
+                                if flag_del:
+                                    try:
                                         os.remove(f_name)
                                         print(' ______________ удалён')
-                                except PermissionError as errorPE:
-                                    print(' ' * 4 + '_' * 50 +
-                                          f'Ошибка: нет доступа для удаления файла {errorPE.filename} - {errorPE.strerror}'
-                                          )
-                                except FileNotFoundError as errorFNFE:
-                                    print(
-                                        ' ' * 4 + '_' * 50 + f'Ошибка: файл не найден {errorFNFE.filename} - {errorFNFE.strerror}')
+                                    except PermissionError as errorPE:
+                                        print(' ' * 4 + '_' * 50 +
+                                              f'Ошибка: нет доступа для удаления файла {errorPE.filename} - {errorPE.strerror}'
+                                              )
+                                    except FileNotFoundError as errorFNFE:
+                                        print(
+                                            ' ' * 4 + '_' * 50 + f'Ошибка: файл не найден {errorFNFE.filename} - {errorFNFE.strerror}')
                             print()
                         # переменные сохраняющие текущий файл в предыдущий
                         f_file = file
@@ -250,12 +251,21 @@ def del_arc_files(folder_value):
 
 
 
-                print(*list_big_files, end=' ', sep='')
-                print(*list_for_index_del)
-                # for f_ind in list_for_index_del:
-                #     del list_big_files[list_big_files.index(f_ind)]
-                # print(*list_big_files, end=' ', sep='')
-                print(len(list_big_files))
+            print()
+            print('----------------------------------------------------------------')
+            print(f'{list_big_files = }')
+            print(f'{list_for_index_del = }')
+            print(f'{len(list_big_files) = }  {len(list_for_index_del) = }')
+            print('--- begin')
+            for f_ind in list_for_index_del[::-1]:
+                print(f_ind, sep='  ', end=' ')
+                del list_big_files[f_ind]
+            list_for_index_del = []
+            print('\n--- end')
+            print(f'{list_big_files = }')
+            print(f'{list_for_index_del = }')
+            print(f'{len(list_big_files) = }  {len(list_for_index_del) = }')
+            print('----------------------------------------------------------------')
 
 
 
