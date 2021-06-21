@@ -193,8 +193,6 @@ def del_arc_files(folder_value):
             if len(list_big_files) > 1:
                 # сортировка списка файлов по размеру, потом по дате и потом по имени
                 list_big_files = sorted(list_big_files, key=lambda nud: (nud[2], nud[0], nud[1]))
-                print(*list_big_files, sep='\n')
-                print()
 
                 # переменные для сохранения предыдущего файла
                 f_date = 0
@@ -213,14 +211,10 @@ def del_arc_files(folder_value):
                         # сравнение начинается со второго файла
                         # само сравнение файла на одинаковость содержимого
                         if f_size == file[2]:
-                            print('сравниваю файлы')
-                            print('пред', f_date, f_size, f_name)
-                            print('след', file[0], file[2], file[1])
                             flag_compare = filecmp.cmp(f_name, file[1], shallow=True)
 
                             # если файлы одинаковые, то удалить предыдущий
                             if flag_compare:
-                                print('удаляю файл ', f_name, end=' ', sep='')
 
                                 # запоминаю индекс для последующего удаления из списка list_big_files
                                 list_for_index_del.append(list_big_files.index(f_file))
@@ -228,7 +222,6 @@ def del_arc_files(folder_value):
                                 if msc.msc_flag_del:
                                     try:
                                         os.remove(f_name)
-                                        print(' ______________ удалён')
                                     except PermissionError as errorPE:
                                         print(' ' * 4 + '_' * 50 +
                                               f'Ошибка: нет доступа для удаления файла {errorPE.filename} - '
