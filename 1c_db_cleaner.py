@@ -228,7 +228,6 @@ def del_arc_files(folder_value):
 
                                 # запоминаю индекс для последующего удаления из списка list_big_files
                                 list_for_index_del.append(list_big_files.index(f_file))
-                                # print(*list_for_index_del)
 
                                 if msc.msc_flag_del:
                                     try:
