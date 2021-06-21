@@ -231,7 +231,6 @@ def del_arc_files(folder_value):
                                         print(
                                             ' ' * 4 + '_' * 50 + f'Ошибка: файл не найден {errorFNFE.filename} - '
                                                                  f'{errorFNFE.strerror}')
-                            print()
                         # переменные сохраняющие текущий файл в предыдущий
                         f_file = file
                         f_date = file[0]
@@ -241,7 +240,6 @@ def del_arc_files(folder_value):
             # ЗАЧИСТКА
             # чистка списка list_big_files от записей о файлах которые физически удалены
             for f_ind in list_for_index_del[::-1]:
-                print(f_ind, sep='  ', end=' ')
                 del list_big_files[f_ind]
             # list_for_index_del = []
 
