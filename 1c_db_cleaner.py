@@ -216,10 +216,9 @@ def del_arc_files(folder_value):
                             print('сравниваю файлы')
                             print('пред', f_date, f_size, f_name)
                             print('след', file[0], file[2], file[1])
-                            flag_compare = 0  # обнуление флага сравнения файлов
                             flag_compare = filecmp.cmp(f_name, file[1], shallow=True)
 
-                            # если файлы одинковые, то удалить предыдущий
+                            # если файлы одинаковые, то удалить предыдущий
                             if flag_compare:
                                 print('удаляю файл ', f_name, end=' ', sep='')
 
@@ -232,11 +231,13 @@ def del_arc_files(folder_value):
                                         print(' ______________ удалён')
                                     except PermissionError as errorPE:
                                         print(' ' * 4 + '_' * 50 +
-                                              f'Ошибка: нет доступа для удаления файла {errorPE.filename} - {errorPE.strerror}'
+                                              f'Ошибка: нет доступа для удаления файла {errorPE.filename} - '
+                                              f'{errorPE.strerror}'
                                               )
                                     except FileNotFoundError as errorFNFE:
                                         print(
-                                            ' ' * 4 + '_' * 50 + f'Ошибка: файл не найден {errorFNFE.filename} - {errorFNFE.strerror}')
+                                            ' ' * 4 + '_' * 50 + f'Ошибка: файл не найден {errorFNFE.filename} - '
+                                                                 f'{errorFNFE.strerror}')
                             print()
                         # переменные сохраняющие текущий файл в предыдущий
                         f_file = file
@@ -249,7 +250,7 @@ def del_arc_files(folder_value):
             for f_ind in list_for_index_del[::-1]:
                 print(f_ind, sep='  ', end=' ')
                 del list_big_files[f_ind]
-            list_for_index_del = []
+            # list_for_index_del = []
 
             # ОСТАВИТЬ quantity_files_in_dir ФАЙЛОВ
             # если осталось больше, чем quantity_files_in_dir, то продолжаю их обрабатывать
