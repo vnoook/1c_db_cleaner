@@ -248,28 +248,14 @@ def del_arc_files(folder_value):
                         f_name = file[1]
                         f_size = file[2]
 
-
-            # print()
-            # print('----------------------------------------------------------------')
-            # print(f'{list_big_files = }')
-            # print(f'{list_for_index_del = }')
-            # print(f'{len(list_big_files) = }  {len(list_for_index_del) = }')
-            # print('--- begin')
+            # ЗАЧИСТКА
+            # чистка списка list_big_files от записей о файлах которые физически удалены
             for f_ind in list_for_index_del[::-1]:
                 print(f_ind, sep='  ', end=' ')
                 del list_big_files[f_ind]
             list_for_index_del = []
-            # print('\n--- end')
-            # print(f'{list_big_files = }')
-            # print(f'{list_for_index_del = }')
-            # print(f'{len(list_big_files) = }  {len(list_for_index_del) = }')
-            # print('----------------------------------------------------------------')
 
-
-
-
-
-
+            # ОСТАВИТЬ quantity_files_in_dir ФАЙЛОВ
             # если осталось больше, чем quantity_files_in_dir, то продолжаю их обрабатывать
             if len(list_big_files) > msc.msc_quantity_files_in_dir:
                 info_message_events.append('***')
