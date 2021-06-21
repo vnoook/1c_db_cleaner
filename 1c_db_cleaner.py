@@ -16,6 +16,9 @@
 # msc_msg = ''
 # msc_root_dir_with_files = r'real path for dir'
 # msc_quantity_files_in_dir = x
+# msc_flag_del = True or False
+# msc_flag_mail = True or False
+
 # ...
 # INSTALL
 # pip install psutil
@@ -32,10 +35,6 @@ import email.utils
 import filecmp
 import msc
 
-# переменная удаления файлов, True удаляет файлы физически
-flag_del = True
-# переменная отправки письма, True отправляет письмо
-flag_mail = True
 
 # расширения файлов для поиска в папке
 extension_list = ('.rar', '.zip', '.dt', '.7z')
@@ -96,10 +95,11 @@ def send_email_statistics():
     msg.set_payload(msg_body.encode())
 
     # отправка письма
-    smtp_link = smtplib.SMTP_SSL(msc.msc_mail_server)
-    smtp_link.login(msc.msc_login_user, msc.msc_login_pass)
-    smtp_link.send_message(msg, msc.msc_from_address, msc.msc_to_address)
-    smtp_link.quit()
+    if msc.msc_flag_mail:
+        smtp_link = smtplib.SMTP_SSL(msc.msc_mail_server)
+        smtp_link.login(msc.msc_login_user, msc.msc_login_pass)
+        smtp_link.send_message(msg, msc.msc_from_address, msc.msc_to_address)
+        smtp_link.quit()
 
     print()
     print('eMail sent')
@@ -171,7 +171,7 @@ def del_arc_files(folder_value):
                     if os.stat(file).st_size <= min_size:
                         print(' '*4, '!!! файл малой длины - удОли !!!', end=' ', sep='')
                         try:
-                            if flag_del:
+                            if msc.msc_flag_del:
                                 os.remove(file)
                             print(' ______________ удалён')
                         except PermissionError as errorPE:
@@ -230,7 +230,7 @@ def del_arc_files(folder_value):
                                 list_for_index_del.append(list_big_files.index(f_file))
                                 # print(*list_for_index_del)
 
-                                if flag_del:
+                                if msc.msc_flag_del:
                                     try:
                                         os.remove(f_name)
                                         print(' ______________ удалён')
@@ -249,23 +249,21 @@ def del_arc_files(folder_value):
                         f_size = file[2]
 
 
-
-
-            print()
-            print('----------------------------------------------------------------')
-            print(f'{list_big_files = }')
-            print(f'{list_for_index_del = }')
-            print(f'{len(list_big_files) = }  {len(list_for_index_del) = }')
-            print('--- begin')
+            # print()
+            # print('----------------------------------------------------------------')
+            # print(f'{list_big_files = }')
+            # print(f'{list_for_index_del = }')
+            # print(f'{len(list_big_files) = }  {len(list_for_index_del) = }')
+            # print('--- begin')
             for f_ind in list_for_index_del[::-1]:
                 print(f_ind, sep='  ', end=' ')
                 del list_big_files[f_ind]
             list_for_index_del = []
-            print('\n--- end')
-            print(f'{list_big_files = }')
-            print(f'{list_for_index_del = }')
-            print(f'{len(list_big_files) = }  {len(list_for_index_del) = }')
-            print('----------------------------------------------------------------')
+            # print('\n--- end')
+            # print(f'{list_big_files = }')
+            # print(f'{list_for_index_del = }')
+            # print(f'{len(list_big_files) = }  {len(list_for_index_del) = }')
+            # print('----------------------------------------------------------------')
 
 
 
@@ -286,7 +284,7 @@ def del_arc_files(folder_value):
                                                    f' с датой {human_read_date(file_data[0])}'
                                                    f' и размером {human_read_format(os.stat(file_data[1]).st_size)}')
                         try:
-                            if flag_del:
+                            if msc.msc_flag_del:
                                 os.remove(file_data[1])
                             print(' ______________ удалён')
                         except PermissionError as errorPE:
@@ -307,8 +305,7 @@ if __name__ == '__main__':
 
     kill_proc_winrar()  # удаляю зависшие процессы winrar
     del_arc_files(msc.msc_root_dir_with_files)  # ищу и удаляю "мелкие файлы"
-    if flag_mail:
-        send_email_statistics()  # отправляется статистика работы
+    send_email_statistics()  # отправляется статистика работы
 
     print()
     print(f'закрыты все процессы winrar,'
