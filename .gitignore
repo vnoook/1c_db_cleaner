@@ -9,4 +9,5 @@
 /.idea/1c_db_cleaner.iml
 /.idea/dictionaries/krasovok.xml
 /.idea/.name
+/__pycache__/
 /msc.py

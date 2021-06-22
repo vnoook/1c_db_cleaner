@@ -185,10 +185,7 @@ def del_arc_files(folder_value):
             # поиск файлов одинаковых по содержанию и их удаление
             # если в папке осталось больше одного файла, то можно начать сравнивать
             if len(list_big_files) > 1:
-                print()
-                print(' ' * 2, 'СРАВНЕНИЕ', '*' * 10)
-
-                # сортировка списка файлов по размеру, потом по дате и потом по имени
+                # сортировка списка больших файлов по размеру, потом по дате и потом по имени
                 list_big_files = sorted(list_big_files, key=lambda nud: (nud[2], nud[0], nud[1]))
 
                 # переменные для сохранения предыдущего файла
@@ -206,13 +203,12 @@ def del_arc_files(folder_value):
                         f_size = file[2]
                     else:
                         # сравнение начинается со второго файла
-                        # само сравнение файла на одинаковость содержимого
                         if f_size == file[2]:
+                            # само сравнение файла на одинаковость содержимого
                             flag_compare = filecmp.cmp(f_name, file[1], shallow=True)
 
                             # если файлы одинаковые, то удалить предыдущий
                             if flag_compare:
-
                                 # запоминаю индекс для последующего удаления из списка list_big_files
                                 list_for_index_del.append(list_big_files.index(f_file))
 
@@ -228,26 +224,28 @@ def del_arc_files(folder_value):
                                         print(
                                             ' ' * 4 + '_' * 50 + f'Ошибка: файл не найден {errorFNFE.filename} - '
                                                                  f'{errorFNFE.strerror}')
-                        # переменные сохраняющие текущий файл в предыдущий
+                        # переменные сохраняющие текущий файл как предыдущий
                         f_file = file
                         f_date = file[0]
                         f_name = file[1]
                         f_size = file[2]
 
-            # ЗАЧИСТКА
+            # ЗАЧИСТКА списка
             # чистка списка list_big_files от записей о файлах которые физически удалены
             for f_ind in list_for_index_del[::-1]:
                 del list_big_files[f_ind]
-            # list_for_index_del = []
 
             # ОСТАВИТЬ quantity_files_in_dir ФАЙЛОВ
             # если осталось больше, чем quantity_files_in_dir, то продолжаю их обрабатывать
             if len(list_big_files) > msc.msc_quantity_files_in_dir:
+                # добавление информации в письмо
                 info_message_events.append('***')
                 info_message_events.append(folders)
 
+                # новый список больших файлов сортируется по дате
                 list_sort_big_files = sorted(list_big_files, key=lambda size_big_file: size_big_file[0], reverse=True)
 
+                # пройдясь по всем файлам проверяется количество файлов оставшихся
                 for file_data in list_sort_big_files:
                     if list_sort_big_files.index(file_data) >= msc.msc_quantity_files_in_dir:
                         print(f'   удаляю файл {file_data[1]} с датой {human_read_date(file_data[0])}', end='')
