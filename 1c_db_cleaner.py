@@ -1,7 +1,8 @@
 # скрипт:
 # 1) закрывает процессы winrar в памяти (winrar предварительно делает архивы 1с и раскладывают их по папкам)
-# 2) следит чтобы в папке не было больше quantity_files_in_dir файлов архивных баз 1с и удаляет старые по дате
-# 3) пишет письмо после каждого исполнения — статистика действий и свободное место на диске
+# 2) сравнивает в папке файлы по содержимому и удаляет одинаковые оставляя новые по дате
+# 3) следит чтобы в папке не было больше quantity_files_in_dir файлов архивных баз 1с и удаляет старые по дате
+# 4) пишет письмо после каждого исполнения — статистика действий и свободное место на диске
 # ...
 # в "соседнем" файле msc.py должны храниться следующие переменные с настоящими значениями
 # msc_mail_server = 'smtp.xxx.ru'
@@ -12,7 +13,7 @@
 # msc_msg_subject = 'subject mail and statistic'
 # msc_msg = ''
 # msc_root_dir_with_files = r'real path for dir'
-# msc_quantity_files_in_dir = x
+# msc_quantity_files_in_dir = X
 # msc_flag_del = True or False
 # msc_flag_mail = True or False
 
@@ -41,7 +42,6 @@ min_size = 10485760  # 10 Mb
 
 # список формирования данных для письма
 info_message_events = []
-
 
 # читаемый вид из байтов в человеческий вид
 def human_read_format(size_file):
@@ -73,8 +73,8 @@ def kill_proc_winrar():
 def send_email_statistics():
     # вставляю техническую инфу для информативности письма вверх
     info_message_events.insert(0, '***')
-    info_message_events.insert(1, f'закрыты все процессы winrar, свободно места на диске с архивами ='
-                                  f' {free_space_disk(msc.msc_root_dir_with_files)}')
+    info_message_events.insert(1, f'закрыты все процессы winrar, свободно места на диске с архивами = '
+                                  f'{free_space_disk(msc.msc_root_dir_with_files)}')
 
     # список соединённый в текст для формирования тела письма
     msg_body = '\r\n'.join(info_message_events)
@@ -83,7 +83,6 @@ def send_email_statistics():
     msg = email.message.EmailMessage()
 
     # создание заголовков в письме
-    msg.set_content('some text')  # ???????????????????????????????????????????????????????????????????????????
     msg.set_type('text/plain; charset=utf-8')
     msg['Date'] = email.utils.formatdate(localtime=True)
     msg['Subject'] = msc.msc_msg_subject
