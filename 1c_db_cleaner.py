@@ -117,7 +117,7 @@ def free_space_disk(folder_value):
     return human_read_format(free_space)
 
 
-# функция для определения и удаления "мелких" файлов в папке
+# функция для определения и удаления "мелких" и одинаковых файлов в папке
 def del_arc_files(folder_value):
     for folders, dirs, files in os.walk(folder_value):
         # смена текущей папки для поиска файла
@@ -126,15 +126,12 @@ def del_arc_files(folder_value):
         # поиск самого длинного имени в папке для ровного отображения в консоли
         max_space = count_max_name_files(files)
 
-        # количество файлов из extension_list
-        count_arc_files = 0
-
         # список для файлов больше минимального размера
         list_big_files = []
         # список индексов для удаления после сравнения
         list_for_index_del = []
 
-        # нужно ли выводить название папки или нет, если в папке нет файлов с расширением из extension_list
+        # нужно ли выводить название папки в консоль или нет, если в папке нет файлов с расширением из extension_list
         # флаг существования файлов с расширением из extension_list
         flag_exist_ext = False
         # количество файлов в папке с расширением из extension_list
@@ -145,7 +142,8 @@ def del_arc_files(folder_value):
             i_files_in_dir += 1
 
         # если файлы из extension_list есть в папке, то ищутся файлы малой длины и удаляются
-        # потому что они создаются архиватором в момент блокировки открытой базы, то есть будут "пустые"
+        # потому что они создаются архиватором в момент блокировки открытой базы, то есть будут "пустые" или "неполные"
+        # также удаляются одинаковые по содержанию файлы
         if flag_exist_ext:
             print()
             print(folders)
@@ -154,7 +152,6 @@ def del_arc_files(folder_value):
             # поиск файлов малой длины и их удаление
             for file in files:
                 if os.path.splitext(file)[1] in extension_list:
-                    count_arc_files += 1
                     print(' '*3, file, '.'*(max_space - len(file)),
                           ' ... размер в байтах ', os.stat(os.path.join(folders, file)).st_size,
                           ' .. ', human_read_format(os.stat(os.path.join(folders, file)).st_size),
@@ -179,6 +176,7 @@ def del_arc_files(folder_value):
 
                     elif os.stat(file).st_size > min_size:
                         print(' - файл больше минимума')
+                        # формирование списка файлов больше "минимума" для дальнейшего сравнения их
                         list_big_files.append([os.stat(os.path.join(folders, file)).st_mtime,
                                                os.path.join(folders, file),
                                                os.stat(os.path.join(folders, file)).st_size
