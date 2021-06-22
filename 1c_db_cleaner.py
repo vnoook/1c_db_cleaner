@@ -181,13 +181,13 @@ def del_arc_files(folder_value):
                                                os.path.join(folders, file),
                                                os.stat(os.path.join(folders, file)).st_size
                                                ])
-
             # СРАВНЕНИЕ
             # поиск файлов одинаковых по содержанию и их удаление
-            print()
-            print('*' * 50)
             # если в папке осталось больше одного файла, то можно начать сравнивать
             if len(list_big_files) > 1:
+                print()
+                print(' ' * 2, 'СРАВНЕНИЕ', '*' * 10)
+
                 # сортировка списка файлов по размеру, потом по дате и потом по имени
                 list_big_files = sorted(list_big_files, key=lambda nud: (nud[2], nud[0], nud[1]))
 
