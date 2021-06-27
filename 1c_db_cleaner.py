@@ -1,7 +1,6 @@
 # TODO
-# 1) добавить флаг закрываемости приложений, а также расширить их список
+# 1) целостность архивной базы — чтобы в архиве был файл 1Cv8.1CD
 # 2) разархивируемость архивных файлов — тестирование на распаковку, чтобы не было битых архивов
-# 3) целостность архивной базы — чтобы в архиве был файл 1Cv8.1CD
 
 # скрипт:
 # 1) закрывает процессы winrar в памяти (winrar предварительно делает архивы 1с и раскладывают их по папкам)
@@ -70,10 +69,11 @@ def human_read_date(date_file):
 
 # удаляет процессы winrar в памяти
 def kill_proc_winrar():
-    process_winrar = 'winrar.exe'
-    for process in psutil.process_iter():
-        if process.name().lower() == process_winrar:
-            process.kill()
+    if msc.msc_flag_kill_proc:
+        process_winrar = ['winrar.exe', 'winzip.exe', '7z.exe']
+        for process in psutil.process_iter():
+            if process.name().lower() in process_winrar:
+                process.kill()
 
 
 # отправка на почту статистики запуска
