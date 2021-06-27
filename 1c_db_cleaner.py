@@ -21,6 +21,7 @@
 # msc_flag_del = True or False
 # msc_flag_mail = True or False
 # msc_flag_compare = True or False
+# msc_flag_kill_proc = True or False
 
 # ...
 # INSTALL
