@@ -23,6 +23,7 @@
 # msc_quantity_files_in_dir = X
 # msc_flag_del = True or False
 # msc_flag_mail = True or False
+# msc_flag_compare = True or False
 
 # ...
 # INSTALL
@@ -192,56 +193,56 @@ def del_arc_files(folder_value):
             # СРАВНЕНИЕ
             # поиск файлов одинаковых по содержанию и их удаление
             # если в папке осталось больше одного файла, то можно начать сравнивать
-            if len(list_big_files) > 1:
-                # сортировка списка больших файлов по размеру, потом по дате и потом по имени
-                list_big_files = sorted(list_big_files, key=lambda nud: (nud[2], nud[0], nud[1]))
+            if msc.msc_flag_compare:
+                if len(list_big_files) > 1:
+                    # сортировка списка больших файлов по размеру, потом по дате и потом по имени
+                    list_big_files = sorted(list_big_files, key=lambda nud: (nud[2], nud[0], nud[1]))
 
-                # переменные для сохранения предыдущего файла
-                f_date = 0
-                f_name = 0
-                f_size = 0
+                    # переменные для сохранения предыдущего файла
+                    f_date = 0
+                    f_name = 0
+                    f_size = 0
 
-                # берём каждый файл и сравниваем с предыдущим
-                for file in list_big_files:
-                    # если первый индекс, то просто запоминаем
-                    if list_big_files.index(file) == 0:
-                        f_file = file
-                        f_date = file[0]
-                        f_name = file[1]
-                        f_size = file[2]
-                    else:
-                        # сравнение начинается со второго файла
-                        if f_size == file[2]:
-                            # само сравнение файла на одинаковость содержимого
-                            flag_compare = filecmp.cmp(f_name, file[1], shallow=True)
+                    # берём каждый файл и сравниваем с предыдущим
+                    for file in list_big_files:
+                        # если первый индекс, то просто запоминаем
+                        if list_big_files.index(file) == 0:
+                            f_file = file
+                            f_date = file[0]
+                            f_name = file[1]
+                            f_size = file[2]
+                        else:
+                            # сравнение начинается со второго файла
+                            if f_size == file[2]:
+                                # само сравнение файла на одинаковость содержимого
+                                flag_compare = filecmp.cmp(f_name, file[1], shallow=True)
 
-                            # если файлы одинаковые, то удалить предыдущий
-                            if flag_compare:
-                                # запоминаю индекс для последующего удаления из списка list_big_files
-                                list_for_index_del.append(list_big_files.index(f_file))
+                                # если файлы одинаковые, то удалить предыдущий
+                                if flag_compare:
+                                    # запоминаю индекс для последующего удаления из списка list_big_files
+                                    list_for_index_del.append(list_big_files.index(f_file))
 
-                                if msc.msc_flag_del:
-                                    try:
-                                        os.remove(f_name)
-                                    except PermissionError as errorPE:
-                                        print(' ' * 4 + '_' * 50 +
-                                              f'Ошибка: нет доступа для удаления файла {errorPE.filename} - '
-                                              f'{errorPE.strerror}'
-                                              )
-                                    except FileNotFoundError as errorFNFE:
-                                        print(
-                                            ' ' * 4 + '_' * 50 + f'Ошибка: файл не найден {errorFNFE.filename} - '
-                                                                 f'{errorFNFE.strerror}')
-                        # переменные сохраняющие текущий файл как предыдущий
-                        f_file = file
-                        f_date = file[0]
-                        f_name = file[1]
-                        f_size = file[2]
-
-            # ЗАЧИСТКА списка
-            # чистка списка list_big_files от записей о файлах которые физически удалены
-            for f_ind in list_for_index_del[::-1]:
-                del list_big_files[f_ind]
+                                    if msc.msc_flag_del:
+                                        try:
+                                            os.remove(f_name)
+                                        except PermissionError as errorPE:
+                                            print(' ' * 4 + '_' * 50 +
+                                                  f'Ошибка: нет доступа для удаления файла {errorPE.filename} - '
+                                                  f'{errorPE.strerror}'
+                                                  )
+                                        except FileNotFoundError as errorFNFE:
+                                            print(
+                                                ' ' * 4 + '_' * 50 + f'Ошибка: файл не найден {errorFNFE.filename} - '
+                                                                     f'{errorFNFE.strerror}')
+                            # переменные сохраняющие текущий файл как предыдущий
+                            f_file = file
+                            f_date = file[0]
+                            f_name = file[1]
+                            f_size = file[2]
+                # зачистка списка
+                # чистка списка list_big_files от записей о файлах которые физически удалены
+                for f_ind in list_for_index_del[::-1]:
+                    del list_big_files[f_ind]
 
             # ОСТАВИТЬ quantity_files_in_dir ФАЙЛОВ
             # если осталось больше, чем quantity_files_in_dir, то продолжаю их обрабатывать
@@ -280,8 +281,8 @@ def del_arc_files(folder_value):
 
 if __name__ == '__main__':
 
-    kill_proc_winrar()  # удаляю зависшие процессы winrar
-    del_arc_files(msc.msc_root_dir_with_files)  # ищу и удаляю "мелкие файлы"
+    kill_proc_winrar()  # удаляю зависшие процессы
+    del_arc_files(msc.msc_root_dir_with_files)  # ищу и удаляю файлы
     send_email_statistics()  # отправляется статистика работы
 
     print()
