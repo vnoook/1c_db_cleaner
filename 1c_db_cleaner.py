@@ -26,6 +26,7 @@
 # ...
 # INSTALL
 # pip install psutil
+# pip install rarfile
 # ...
 
 import os
@@ -38,6 +39,7 @@ import email
 import email.utils
 import filecmp
 import msc
+import rarfile
 
 
 # расширения файлов для поиска в папке
@@ -251,16 +253,21 @@ def del_arc_files(folder_value):
                 info_message_events.append('***')
                 info_message_events.append(folders)
 
-                # новый список больших файлов сортируется по дате
-                list_sort_big_files = sorted(list_big_files, key=lambda size_big_file: size_big_file[0], reverse=True)
+                # список больших файлов сортируется по дате
+                list_big_files = sorted(list_big_files, key=lambda size_big_file: size_big_file[0], reverse=True)
 
                 # пройдясь по всем файлам проверяется количество файлов оставшихся
-                for file_data in list_sort_big_files:
-                    if list_sort_big_files.index(file_data) >= msc.msc_quantity_files_in_dir:
+                for file_data in list_big_files:
+                    if list_big_files.index(file_data) >= msc.msc_quantity_files_in_dir:
                         print(f'   удаляю файл {file_data[1]} с датой {human_read_date(file_data[0])}', end='')
                         info_message_events.append(f'      удаляю файл {os.path.basename(file_data[1])}'
                                                    f' с датой {human_read_date(file_data[0])}'
                                                    f' и размером {human_read_format(os.stat(file_data[1]).st_size)}')
+
+                        # запоминаю индекс для последующего удаления из списка list_big_files
+                        list_for_index_del.append(list_big_files.index(f_file))
+                        111
+
                         try:
                             if msc.msc_flag_del:
                                 os.remove(file_data[1])
@@ -277,6 +284,38 @@ def del_arc_files(folder_value):
                         info_message_events.append(f'   оставляю файл {os.path.basename(file_data[1])}'
                                                    f' с датой {human_read_date(file_data[0])}'
                                                    f' и размером {human_read_format(os.stat(file_data[1]).st_size)}')
+
+
+
+
+
+            # ЦЕЛОСТНОСТЬ файлов
+            print()
+            print('_'*50)
+            print(f'{len(list_big_files) = }')
+            print(list_big_files)
+            print('_' * 50)
+
+            # rf = rarfile.RarFile(r'd:\temp\zik1_2016_2021_06_09_1.rar')
+            # for f in rf.infolist():
+            #     print(f'{f.filename = }')
+            #     if f.is_file():
+            #         print(f'{os.path.basename(f.filename) = }')
+            #         print(f'{f.is_file() = }')
+            #         print(f'{f.file_size = }')
+            #         if '1Cv8.1CD' in str(f.filename):
+            #             print(f'-_-_-')
+
+
+
+
+
+
+
+
+
+
+
 
 
 if __name__ == '__main__':
