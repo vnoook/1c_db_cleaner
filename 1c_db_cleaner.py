@@ -246,8 +246,52 @@ def del_arc_files(folder_value):
                 for f_ind in list_for_index_del[::-1]:
                     del list_big_files[f_ind]
 
+
+
+            # ЦЕЛОСТНОСТЬ файлов
+            print('\n', '_'*50)
+
+            list_for_index_del = []
+
+            for big_file in list_big_files:
+                print(big_file[1])
+
+                flag_1cd_ext = False
+                rf = rarfile.RarFile(big_file[1])
+
+                for f in rf.infolist():
+                    if f.is_file():
+                        if '1cv8.1cd'.lower() == str(os.path.basename(f.filename)).lower():
+                            flag_1cd_ext = True
+
+                if flag_1cd_ext:
+                    # запоминаю индекс для последующего удаления из списка list_big_files
+                    list_for_index_del.append(list_big_files.index(big_file))
+
+                    try:
+                        os.remove(os.path.basename(f.filename))
+                    except PermissionError as errorPE:
+                        print(' ' * 4 + '_' * 50 +
+                              f'Ошибка: нет доступа для удаления файла {errorPE.filename} - '
+                              f'{errorPE.strerror}'
+                              )
+                    except FileNotFoundError as errorFNFE:
+                        print(
+                            ' ' * 4 + '_' * 50 + f'Ошибка: файл не найден {errorFNFE.filename} - '
+                                                 f'{errorFNFE.strerror}')
+
+            # зачистка списка
+            # чистка списка list_big_files от записей о файлах которые физически удалены
+            for f_ind in list_for_index_del[::-1]:
+                del list_big_files[f_ind]
+
+            print('_'*50)
+
+
+
             # ОСТАВИТЬ quantity_files_in_dir ФАЙЛОВ
             # если осталось больше, чем quantity_files_in_dir, то продолжаю их обрабатывать
+            # этот кусок кода должен быть последним, потому что этот код должен выбирать только из "здоровых" файлов
             if len(list_big_files) > msc.msc_quantity_files_in_dir:
                 # добавление информации в письмо
                 info_message_events.append('***')
@@ -263,11 +307,6 @@ def del_arc_files(folder_value):
                         info_message_events.append(f'      удаляю файл {os.path.basename(file_data[1])}'
                                                    f' с датой {human_read_date(file_data[0])}'
                                                    f' и размером {human_read_format(os.stat(file_data[1]).st_size)}')
-
-                        # запоминаю индекс для последующего удаления из списка list_big_files
-                        list_for_index_del.append(list_big_files.index(f_file))
-                        111
-
                         try:
                             if msc.msc_flag_del:
                                 os.remove(file_data[1])
@@ -284,38 +323,6 @@ def del_arc_files(folder_value):
                         info_message_events.append(f'   оставляю файл {os.path.basename(file_data[1])}'
                                                    f' с датой {human_read_date(file_data[0])}'
                                                    f' и размером {human_read_format(os.stat(file_data[1]).st_size)}')
-
-
-
-
-
-            # ЦЕЛОСТНОСТЬ файлов
-            print()
-            print('_'*50)
-            print(f'{len(list_big_files) = }')
-            print(list_big_files)
-            print('_' * 50)
-
-            # rf = rarfile.RarFile(r'd:\temp\zik1_2016_2021_06_09_1.rar')
-            # for f in rf.infolist():
-            #     print(f'{f.filename = }')
-            #     if f.is_file():
-            #         print(f'{os.path.basename(f.filename) = }')
-            #         print(f'{f.is_file() = }')
-            #         print(f'{f.file_size = }')
-            #         if '1Cv8.1CD' in str(f.filename):
-            #             print(f'-_-_-')
-
-
-
-
-
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
