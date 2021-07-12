@@ -2,8 +2,8 @@
 # 1) целостность архивной базы — чтобы в архиве был файл 1Cv8.1CD
 # 2) проанализировать размеры файлов, если отличается один от остальных, то разобраться почему
 # 3) разархивируемость архивных файлов — тестирование на распаковку, чтобы не было битых архивов
-# 4) добавление данных для почты должно зависить от того, что выбрано в настройках
-# 5) не проверять файл на цнлостность, если это не rar файл
+# 4) добавление данных для почты должно зависеть от того, что выбрано в настройках
+# 5) не проверять файл на целостность, если это не rar файл
 
 
 # скрипт:
@@ -251,29 +251,39 @@ def del_arc_files(folder_value):
                     del list_big_files[f_ind]
 
 
-
             # ЦЕЛОСТНОСТЬ файлов
+            # целый если внутри есть 1cv8.1cd
             print('\n', '_'*50)
 
             list_for_index_del = []
 
             for big_file in list_big_files:
-                print(big_file[1])
+                print(f'{big_file[1] = }')
+                print(f'{list_big_files.index(big_file) = }')
 
-                flag_1cd_ext = False
                 rf = rarfile.RarFile(big_file[1])
 
-                for f in rf.infolist():
-                    if f.is_file():
-                        if '1cv8.1cd'.lower() == str(os.path.basename(f.filename)).lower():
+                flag_1cd_ext = False
+                for file_in_rf in rf.infolist():
+                    if file_in_rf.is_file():
+                        if str(os.path.basename(file_in_rf.filename)).lower() == '1cv8.1cd'.lower():
                             flag_1cd_ext = True
+                            break
+                        else:
+                            # запоминаю индекс для последующего удаления из списка list_big_files
+                            list_for_index_del.append(list_big_files.index(big_file))
+                            break
 
-                if flag_1cd_ext:
-                    # запоминаю индекс для последующего удаления из списка list_big_files
-                    list_for_index_del.append(list_big_files.index(big_file))
+                print(list_for_index_del)
+                # exit()
+
+                if not flag_1cd_ext:
 
                     try:
-                        os.remove(os.path.basename(f.filename))
+                        print(os.path.basename(file_in_rf.filename))
+
+                        # os.remove(os.path.basename(file_in_rf.filename))
+
                     except PermissionError as errorPE:
                         print(' ' * 4 + '_' * 50 +
                               f'Ошибка: нет доступа для удаления файла {errorPE.filename} - '
