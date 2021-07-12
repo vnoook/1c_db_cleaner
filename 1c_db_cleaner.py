@@ -263,20 +263,19 @@ def del_arc_files(folder_value):
                 rf = rarfile.RarFile(big_file[1])
 
                 flag_1cd_ext = False
-
                 for file_in_rf in rf.infolist():
                     if file_in_rf.is_file():
                         if str(os.path.basename(file_in_rf.filename)).lower() == '1cv8.1cd':
                             flag_1cd_ext = True
                             break
 
-
                 if not flag_1cd_ext:
                     # запоминаю индекс для последующего удаления из списка list_big_files
                     list_for_index_del.append(list_big_files.index(big_file))
-                    print(f'{list_for_index_del = }')
+                    # print(f'{list_for_index_del = }')
 
                     try:
+                        print(f'удаляю файл без файла 1cv8.1cd - {big_file[1]}')
                         if msc.msc_flag_del:
                             os.remove(os.path.basename(big_file[1]))
                     except PermissionError as errorPE:
@@ -293,9 +292,7 @@ def del_arc_files(folder_value):
             # чистка списка list_big_files от записей о файлах которые физически удалены
             for f_ind in list_for_index_del[::-1]:
                 del list_big_files[f_ind]
-
             print('_'*50)
-
 
 
             # ОСТАВИТЬ quantity_files_in_dir ФАЙЛОВ
