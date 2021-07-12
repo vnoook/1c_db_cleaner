@@ -254,34 +254,31 @@ def del_arc_files(folder_value):
             # ЦЕЛОСТНОСТЬ файлов
             # целый если внутри есть 1cv8.1cd
             print('\n', '_'*50)
-
             list_for_index_del = []
-
             for big_file in list_big_files:
-                print()
-                print(f'{big_file[1] = }')
-                print(f'{list_big_files.index(big_file) = }')
+                # print()
+                # print(f'{big_file[1] = }')
+                # print(f'{list_big_files.index(big_file) = }')
 
                 rf = rarfile.RarFile(big_file[1])
 
                 flag_1cd_ext = False
+
                 for file_in_rf in rf.infolist():
                     if file_in_rf.is_file():
                         if str(os.path.basename(file_in_rf.filename)).lower() == '1cv8.1cd':
                             flag_1cd_ext = True
                             break
-                        else:
-                            # запоминаю индекс для последующего удаления из списка list_big_files
-                            list_for_index_del.append(list_big_files.index(big_file))
-                            break
 
-                print(f'{list_for_index_del = }')
-                # exit()
 
                 if not flag_1cd_ext:
+                    # запоминаю индекс для последующего удаления из списка list_big_files
+                    list_for_index_del.append(list_big_files.index(big_file))
+                    print(f'{list_for_index_del = }')
+
                     try:
-                        pass
-                        # os.remove(os.path.basename(big_file[1]))
+                        if msc.msc_flag_del:
+                            os.remove(os.path.basename(big_file[1]))
                     except PermissionError as errorPE:
                         print(' ' * 4 + '_' * 50 +
                               f'Ошибка: нет доступа для удаления файла {errorPE.filename} - '
