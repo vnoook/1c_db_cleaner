@@ -258,6 +258,7 @@ def del_arc_files(folder_value):
             list_for_index_del = []
 
             for big_file in list_big_files:
+                print()
                 print(f'{big_file[1] = }')
                 print(f'{list_big_files.index(big_file) = }')
 
@@ -266,7 +267,7 @@ def del_arc_files(folder_value):
                 flag_1cd_ext = False
                 for file_in_rf in rf.infolist():
                     if file_in_rf.is_file():
-                        if str(os.path.basename(file_in_rf.filename)).lower() == '1cv8.1cd'.lower():
+                        if str(os.path.basename(file_in_rf.filename)).lower() == '1cv8.1cd':
                             flag_1cd_ext = True
                             break
                         else:
@@ -274,16 +275,13 @@ def del_arc_files(folder_value):
                             list_for_index_del.append(list_big_files.index(big_file))
                             break
 
-                print(list_for_index_del)
+                print(f'{list_for_index_del = }')
                 # exit()
 
                 if not flag_1cd_ext:
-
                     try:
-                        print(os.path.basename(file_in_rf.filename))
-
-                        # os.remove(os.path.basename(file_in_rf.filename))
-
+                        pass
+                        # os.remove(os.path.basename(big_file[1]))
                     except PermissionError as errorPE:
                         print(' ' * 4 + '_' * 50 +
                               f'Ошибка: нет доступа для удаления файла {errorPE.filename} - '
