@@ -4,8 +4,7 @@
 # 4) добавление данных для почты должно зависеть от того, что выбрано в настройках
 # 5) не проверять файл на целостность, если это не rar файл
 # 6) просчитать что делать раньше Сравнение или Целостность
-# 7) унифицировать список для индексов типа - list_for_index_del
-# 8) унифицировать цикл прохода по большим файлам типа - for big_file in list_big_files
+# 7) унифицировать цикл прохода по большим файлам типа - for big_file in list_big_files
 
 # скрипт:
 # 1) закрывает процессы winrar в памяти (winrar предварительно делает архивы 1с и раскладывают их по папкам)
@@ -259,9 +258,9 @@ def del_arc_files(folder_value):
                 list_for_index_del = []
 
                 # проходит по всем большим и пытается в нём найти файл 1cv8.1cd, если нет, то удаляет
-                for big_file in list_big_files:
+                for file in list_big_files:
                     # каждый файл становится экземпляром RarFile
-                    rf = rarfile.RarFile(big_file[1])
+                    rf = rarfile.RarFile(file[1])
 
                     # непосредственный поиск файла 1cv8.1cd в архиве
                     flag_1cd_ext = False
@@ -274,12 +273,12 @@ def del_arc_files(folder_value):
                     # если файла 1cv8.1cd не нашлось, то архивных файл удалить
                     if not flag_1cd_ext:
                         # запоминаю индекс для последующего удаления из списка list_big_files
-                        list_for_index_del.append(list_big_files.index(big_file))
+                        list_for_index_del.append(list_big_files.index(file))
 
                         try:
-                            print(f'удаляю файл без файла 1cv8.1cd - {big_file[1]}')
+                            print(f'удаляю архив без файла 1cv8.1cd - {file[1]}')
                             if msc.msc_flag_del:
-                                os.remove(os.path.basename(big_file[1]))
+                                os.remove(os.path.basename(file[1]))
                         except PermissionError as errorPE:
                             print(' ' * 4 + '_' * 50 +
                                   f'Ошибка: нет доступа для удаления файла {errorPE.filename} - '
@@ -307,15 +306,15 @@ def del_arc_files(folder_value):
                 list_big_files = sorted(list_big_files, key=lambda size_big_file: size_big_file[0], reverse=True)
 
                 # пройдясь по всем файлам проверяется количество файлов оставшихся
-                for file_data in list_big_files:
-                    if list_big_files.index(file_data) >= msc.msc_quantity_files_in_dir:
-                        print(f'   удаляю файл {file_data[1]} с датой {human_read_date(file_data[0])}', end='')
-                        info_message_events.append(f'      удаляю файл {os.path.basename(file_data[1])}'
-                                                   f' с датой {human_read_date(file_data[0])}'
-                                                   f' и размером {human_read_format(os.stat(file_data[1]).st_size)}')
+                for file in list_big_files:
+                    if list_big_files.index(file) >= msc.msc_quantity_files_in_dir:
+                        print(f'   удаляю файл {file[1]} с датой {human_read_date(file[0])}', end='')
+                        info_message_events.append(f'      удаляю файл {os.path.basename(file[1])}'
+                                                   f' с датой {human_read_date(file[0])}'
+                                                   f' и размером {human_read_format(os.stat(file[1]).st_size)}')
                         try:
                             if msc.msc_flag_del:
-                                os.remove(file_data[1])
+                                os.remove(file[1])
                             print(' ______________ удалён')
                         except PermissionError as errorPE:
                             print(' '*4 + '_'*50 +
@@ -325,10 +324,10 @@ def del_arc_files(folder_value):
                             print(' '*4+'_'*50 + f'Ошибка: файл не найден {errorFNFE.filename} - {errorFNFE.strerror}')
 
                     else:
-                        print(f'   оставляю файл {file_data[1]} с датой {human_read_date(file_data[0])}')
-                        info_message_events.append(f'   оставляю файл {os.path.basename(file_data[1])}'
-                                                   f' с датой {human_read_date(file_data[0])}'
-                                                   f' и размером {human_read_format(os.stat(file_data[1]).st_size)}')
+                        print(f'   оставляю файл {file[1]} с датой {human_read_date(file[0])}')
+                        info_message_events.append(f'   оставляю файл {os.path.basename(file[1])}'
+                                                   f' с датой {human_read_date(file[0])}'
+                                                   f' и размером {human_read_format(os.stat(file[1]).st_size)}')
 
 
 if __name__ == '__main__':
