@@ -29,7 +29,7 @@
 # msc_flag_compare = True or False
 # msc_flag_kill_proc = True or False
 # msc_flag_integrity = True or False
-
+#
 # ...
 # INSTALL
 # pip install psutil
@@ -258,11 +258,12 @@ def del_arc_files(folder_value):
                 # запоминаю индекс для последующего удаления из списка list_big_files
                 list_for_index_del = []
 
-
+                # проходит по всем большим и пытается в нём найти файл 1cv8.1cd, если нет, то удаляет
                 for big_file in list_big_files:
-
+                    # каждый файл становится экземпляром RarFile
                     rf = rarfile.RarFile(big_file[1])
 
+                    # непосредственный поиск файла 1cv8.1cd в архиве
                     flag_1cd_ext = False
                     for file_in_rf in rf.infolist():
                         if file_in_rf.is_file():
@@ -270,10 +271,10 @@ def del_arc_files(folder_value):
                                 flag_1cd_ext = True
                                 break
 
+                    # если файла 1cv8.1cd не нашлось, то архивных файл удалить
                     if not flag_1cd_ext:
                         # запоминаю индекс для последующего удаления из списка list_big_files
                         list_for_index_del.append(list_big_files.index(big_file))
-                        # print(f'{list_for_index_del = }')
 
                         try:
                             print(f'удаляю файл без файла 1cv8.1cd - {big_file[1]}')
@@ -289,11 +290,10 @@ def del_arc_files(folder_value):
                                 ' ' * 4 + '_' * 50 + f'Ошибка: файл не найден {errorFNFE.filename} - '
                                                      f'{errorFNFE.strerror}')
 
-                # зачистка списка
-                # чистка списка list_big_files от записей о файлах которые физически удалены
+                # зачистка списка list_big_files от записей о файлах которые физически удалены
                 for f_ind in list_for_index_del[::-1]:
                     del list_big_files[f_ind]
-                print('_'*50)
+                print('-'*50)
 
             # ОСТАВИТЬ quantity_files_in_dir ФАЙЛОВ
             # если осталось больше, чем quantity_files_in_dir, то продолжаю их обрабатывать
@@ -339,5 +339,5 @@ if __name__ == '__main__':
 
     print()
     print(f'закрыты все процессы winrar,'
-          f' свободно места на диске с архивами = {free_space_disk(msc.msc_root_dir_with_files)}'
+          f' свободно места на диске с архивами = {free_space_disk(msc.msc_root_dir_with_files)},'
           f' статистика на почту {msc.msc_to_address} отправлена')
