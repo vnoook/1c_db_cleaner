@@ -5,6 +5,8 @@
 # 4) добавление данных для почты должно зависеть от того, что выбрано в настройках
 # 5) не проверять файл на целостность, если это не rar файл
 # 6) просчитать что делать раньше Сравнение или Целостность
+# 7) унифицировать список для индексов типа - list_for_index_del
+# 8) унифицировать цикл прохода по большим файлам типа - for big_file in list_big_files
 
 # скрипт:
 # 1) закрывает процессы winrar в памяти (winrar предварительно делает архивы 1с и раскладывают их по папкам)
@@ -251,13 +253,13 @@ def del_arc_files(folder_value):
             # ЦЕЛОСТНОСТЬ
             # целостный, если внутри есть 1cv8.1cd
             if msc.msc_flag_integrity:
-                print('\n', '-'*50)
+                print('-'*50)
 
+                # запоминаю индекс для последующего удаления из списка list_big_files
                 list_for_index_del = []
+
+
                 for big_file in list_big_files:
-                    # print()
-                    # print(f'{big_file[1] = }')
-                    # print(f'{list_big_files.index(big_file) = }')
 
                     rf = rarfile.RarFile(big_file[1])
 
