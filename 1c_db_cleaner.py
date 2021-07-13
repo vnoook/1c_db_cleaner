@@ -4,7 +4,7 @@
 # 3) разархивируемость архивных файлов — тестирование на распаковку, чтобы не было битых архивов
 # 4) добавление данных для почты должно зависеть от того, что выбрано в настройках
 # 5) не проверять файл на целостность, если это не rar файл
-
+# 6) просчитать что делать раньше Сравнение или Целостность
 
 # скрипт:
 # 1) закрывает процессы winrar в памяти (winrar предварительно делает архивы 1с и раскладывают их по папкам)
@@ -26,6 +26,7 @@
 # msc_flag_mail = True or False
 # msc_flag_compare = True or False
 # msc_flag_kill_proc = True or False
+# msc_flag_integrity = True or False
 
 # ...
 # INSTALL
@@ -56,7 +57,7 @@ min_size = 10485760  # 10 Mb
 info_message_events = []
 
 
-# читаемый вид из байтов в человеческий вид
+# читаемый вид байтов в человеческий вид
 def human_read_format(size_file):
     size_file_human_format = 0
     if size_file != 0:
@@ -68,7 +69,7 @@ def human_read_format(size_file):
     return size_file_human_format
 
 
-# читаемый вид из времени в человеческий вид
+# читаемый вид времени в человеческий вид
 def human_read_date(date_file):
     date_file_human_format = str(datetime.datetime.fromtimestamp(date_file)).split('.')[0]
     return date_file_human_format
@@ -125,7 +126,7 @@ def count_max_name_files(files_value):
     return max_name_file
 
 
-# расчёт места на диске
+# расчёт места на диске в человеческий вид
 def free_space_disk(folder_value):
     total_space, used_space, free_space = shutil.disk_usage(folder_value)
     return human_read_format(free_space)
@@ -155,7 +156,7 @@ def del_arc_files(folder_value):
                 flag_exist_ext = True
             i_files_in_dir += 1
 
-        # если файлы из extension_list есть в папке, то ищутся файлы малой длины и удаляются
+        # если файлы из extension_list есть в папке, то ищутся файлы малой длины и "неполные", и удаляются
         # потому что они создаются архиватором в момент блокировки открытой базы, то есть будут "пустые" или "неполные"
         # также удаляются одинаковые по содержанию файлы
         if flag_exist_ext:
@@ -205,16 +206,14 @@ def del_arc_files(folder_value):
                     list_big_files = sorted(list_big_files, key=lambda nud: (nud[2], nud[0], nud[1]))
 
                     # переменные для сохранения предыдущего файла
-                    f_date = 0
                     f_name = 0
                     f_size = 0
 
                     # берём каждый файл и сравниваем с предыдущим
                     for file in list_big_files:
-                        # если первый индекс, то просто запоминаем
+                        # если первый индекс (файл), то просто запоминаем
                         if list_big_files.index(file) == 0:
                             f_file = file
-                            f_date = file[0]
                             f_name = file[1]
                             f_size = file[2]
                         else:
@@ -242,7 +241,6 @@ def del_arc_files(folder_value):
                                                                      f'{errorFNFE.strerror}')
                             # переменные сохраняющие текущий файл как предыдущий
                             f_file = file
-                            f_date = file[0]
                             f_name = file[1]
                             f_size = file[2]
                 # зачистка списка
@@ -250,50 +248,50 @@ def del_arc_files(folder_value):
                 for f_ind in list_for_index_del[::-1]:
                     del list_big_files[f_ind]
 
+            # ЦЕЛОСТНОСТЬ
+            # целостный, если внутри есть 1cv8.1cd
+            if msc.msc_flag_integrity:
+                print('\n', '-'*50)
 
-            # ЦЕЛОСТНОСТЬ файлов
-            # целый если внутри есть 1cv8.1cd
-            print('\n', '_'*50)
-            list_for_index_del = []
-            for big_file in list_big_files:
-                # print()
-                # print(f'{big_file[1] = }')
-                # print(f'{list_big_files.index(big_file) = }')
+                list_for_index_del = []
+                for big_file in list_big_files:
+                    # print()
+                    # print(f'{big_file[1] = }')
+                    # print(f'{list_big_files.index(big_file) = }')
 
-                rf = rarfile.RarFile(big_file[1])
+                    rf = rarfile.RarFile(big_file[1])
 
-                flag_1cd_ext = False
-                for file_in_rf in rf.infolist():
-                    if file_in_rf.is_file():
-                        if str(os.path.basename(file_in_rf.filename)).lower() == '1cv8.1cd':
-                            flag_1cd_ext = True
-                            break
+                    flag_1cd_ext = False
+                    for file_in_rf in rf.infolist():
+                        if file_in_rf.is_file():
+                            if str(os.path.basename(file_in_rf.filename)).lower() == '1cv8.1cd':
+                                flag_1cd_ext = True
+                                break
 
-                if not flag_1cd_ext:
-                    # запоминаю индекс для последующего удаления из списка list_big_files
-                    list_for_index_del.append(list_big_files.index(big_file))
-                    # print(f'{list_for_index_del = }')
+                    if not flag_1cd_ext:
+                        # запоминаю индекс для последующего удаления из списка list_big_files
+                        list_for_index_del.append(list_big_files.index(big_file))
+                        # print(f'{list_for_index_del = }')
 
-                    try:
-                        print(f'удаляю файл без файла 1cv8.1cd - {big_file[1]}')
-                        if msc.msc_flag_del:
-                            os.remove(os.path.basename(big_file[1]))
-                    except PermissionError as errorPE:
-                        print(' ' * 4 + '_' * 50 +
-                              f'Ошибка: нет доступа для удаления файла {errorPE.filename} - '
-                              f'{errorPE.strerror}'
-                              )
-                    except FileNotFoundError as errorFNFE:
-                        print(
-                            ' ' * 4 + '_' * 50 + f'Ошибка: файл не найден {errorFNFE.filename} - '
-                                                 f'{errorFNFE.strerror}')
+                        try:
+                            print(f'удаляю файл без файла 1cv8.1cd - {big_file[1]}')
+                            if msc.msc_flag_del:
+                                os.remove(os.path.basename(big_file[1]))
+                        except PermissionError as errorPE:
+                            print(' ' * 4 + '_' * 50 +
+                                  f'Ошибка: нет доступа для удаления файла {errorPE.filename} - '
+                                  f'{errorPE.strerror}'
+                                  )
+                        except FileNotFoundError as errorFNFE:
+                            print(
+                                ' ' * 4 + '_' * 50 + f'Ошибка: файл не найден {errorFNFE.filename} - '
+                                                     f'{errorFNFE.strerror}')
 
-            # зачистка списка
-            # чистка списка list_big_files от записей о файлах которые физически удалены
-            for f_ind in list_for_index_del[::-1]:
-                del list_big_files[f_ind]
-            print('_'*50)
-
+                # зачистка списка
+                # чистка списка list_big_files от записей о файлах которые физически удалены
+                for f_ind in list_for_index_del[::-1]:
+                    del list_big_files[f_ind]
+                print('_'*50)
 
             # ОСТАВИТЬ quantity_files_in_dir ФАЙЛОВ
             # если осталось больше, чем quantity_files_in_dir, то продолжаю их обрабатывать
