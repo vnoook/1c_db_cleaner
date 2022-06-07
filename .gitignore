@@ -1,13 +1,3 @@
-/.idea/.gitignore
-/.idea/1c db cleaner.iml
-/.idea/misc.xml
-/.idea/modules.xml
-/.idea/inspectionProfiles/profiles_settings.xml
-/.idea/inspectionProfiles/Project_Default.xml
-/.idea/vcs.xml
-/.idea/workspace.xml
-/.idea/1c_db_cleaner.iml
-/.idea/dictionaries/krasovok.xml
-/.idea/.name
+/.idea/
 /__pycache__/
 /msc.py
